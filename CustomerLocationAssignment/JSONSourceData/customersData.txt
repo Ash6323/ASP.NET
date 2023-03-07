@@ -1,0 +1,32 @@
+{[
+{"CustomerID": "1", "Locations": [{"Street": "A1", "Town": "TownA1", "City": "Delhi"}, 
+				{"Street": "A2", "Town": "TownA2", "City": "Mumbai"}]},
+
+{"CustomerID": "2", "Locations": [{"Street": "B1", "Town": "TownB1", "City": "Pune"},
+				{"Street": "B2", "Town": "TownB2", "City": "Hyderabad"}]},
+
+{"CustomerID": "3", "Locations": [{"Street": "C1", "Town": "TownC1", "City": "Bangalore"},
+				{"Street": "C2", "Town": "TownC2", "City": "Noida"}]},
+
+{"CustomerID": "4", "Locations": [{"Street": "D1", "Town": "TownD1", "City": "Mumbai"},
+				{"Street": "D2", "Town": "TownD2", "City": "Hyderabad"}]},
+
+{"CustomerID": "5", "Locations": [{"Street": "E1", "Town": "TownE1", "City": "Noida"},
+				{"Street": "E2", "Town": "TownE2", "City": "Mumbai"}]}
+]}
+
+
+
+
+
+
+{"AllCustomerData": 
+[
+    {"CustomerID": "1","Locations": ["Delhi, Mumbai"]},
+    {"CustomerID": "2","Locations": ["Pune, Hyderabad"]},
+    {"CustomerID": "3", "Locations": ["Bangalore, Noida"]},
+    {"CustomerID": "4", "Locations": ["Mumbai, Hyderabad"]},
+    {"CustomerID": "5", "Locations": ["Noida, Mumbai"]}
+]
+}
+
