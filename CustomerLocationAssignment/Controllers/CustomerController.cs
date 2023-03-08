@@ -25,7 +25,7 @@ namespace CustomerLocationAssignment.Controllers
         /// <response code="200">  If Customers are Found and Response is Given</response>
         /// <response code="400">  If Anything is Missing from Client Side's Request</response>
         /// <response code="404">  If Data not Found</response>
-        [HttpGet]
+        [HttpGet]  
         public IActionResult Get()
         {
             var response = new
@@ -34,7 +34,7 @@ namespace CustomerLocationAssignment.Controllers
                 message = "Data Retrieval Successful",
                 data = allCustomersData
             };
-            return new ObjectResult(response);
+            return Ok(response);
         }
 
         // GET api/Customer/{CustomerID}
@@ -65,17 +65,14 @@ namespace CustomerLocationAssignment.Controllers
                         message = "Data Retrieval Successful",
                         data = allCustomersData
                     };
-                    return new ObjectResult(response1);
+                    return Ok(response1);
                 }                   
             }
-            Customer nullCustomer = new Customer();
-            nullCustomer.customerId = null;
-            nullCustomer.locations = null;
             var response2 = new
             {
                 statusCode = StatusCodes.Status404NotFound,
                 message = "Unsuccessful Data Retrieval. Customer with this ID does not Exist",
-                data = nullCustomer
+                data = "N.A."
             };
             return NotFound(response2);
         }
@@ -195,7 +192,7 @@ namespace CustomerLocationAssignment.Controllers
                     {
                         statusCode = StatusCodes.Status204NoContent,
                         message = "Data Deletion Successful",
-                        data = singleCustomer
+                        data = "No Content"
                     };
                     return Ok(response);
                 }
@@ -207,7 +204,7 @@ namespace CustomerLocationAssignment.Controllers
                         message = "Unsuccessful Data Deletion- Customer Record Contains Locations. Remove Locations First",
                         data = singleCustomer
                     };
-                    return Accepted(response2);
+                    return BadRequest(response2);
                 }
             }
             Customer nullCustomer = new Customer();
