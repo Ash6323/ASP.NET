@@ -16,4 +16,10 @@
     {
         public List<Customer> customersList { get; set; } = new List<Customer>();
     }
+    public class ResponseBody
+    {
+        public int statusCode { get; set; }
+        public string message { get; set; }
+        //public  var data { get; set; }
+    }
 }

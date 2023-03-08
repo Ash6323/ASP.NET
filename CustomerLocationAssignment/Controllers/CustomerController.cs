@@ -10,6 +10,7 @@ namespace CustomerLocationAssignment.Controllers
     public class CustomerController : ControllerBase
     {
         public static CustomerListClass allCustomersData = new CustomerListClass();
+        ResponseBody response = new ResponseBody();
 
         // GET: api/Customer
 
@@ -31,8 +32,8 @@ namespace CustomerLocationAssignment.Controllers
             var response = new
             {
                 statusCode = StatusCodes.Status200OK,
-                message = "Data Retrieval Successful",
-                data = allCustomersData
+                message = ConstantMessages.dataRetrievedSuccessfully,
+                data = allCustomersData.customersList
             };
             return Ok(response);
         }
@@ -55,37 +56,15 @@ namespace CustomerLocationAssignment.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(string id)
         {
-            foreach (var singleCustomer in allCustomersData.customersList)
-            {
-                if (singleCustomer.customerId == id)
-                {
-                    var response1 = new
-                    {
-                        statusCode = StatusCodes.Status200OK,
-                        message = "Data Retrieval Successful",
-                        data = allCustomersData
-                    };
-                    return Ok(response1);
-                }                   
-            }
-            var response2 = new
-            {
-                statusCode = StatusCodes.Status404NotFound,
-                message = "Unsuccessful Data Retrieval. Customer with this ID does not Exist",
-                data = "N.A."
-            };
-            return NotFound(response2);
+           IEnumerable<Customer> result = allCustomersData.customersList.Where(w => w.customerId == id);
+           var response = new
+           {
+               statusCode = StatusCodes.Status200OK,
+               message = ConstantMessages.dataRetrievedSuccessfully,
+               data = result
+           };
+           return Ok(response);
         }
-
-        // POST api/Customer
-        //[HttpPost]
-        //[Route("AllCustomerData")]
-        //public string Post([FromBody] CustomerListClass value)
-        //{
-        //    allCustomersData = value;
-        //    return "All Customers Added.";
-        //}
-
 
         // POST api/Customer
 
@@ -104,24 +83,28 @@ namespace CustomerLocationAssignment.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] Customer value)
         {
-            foreach (var singleCustomer in allCustomersData.customersList.Where(w => w.customerId == value.customerId))
+            IEnumerable<Customer> result = allCustomersData.customersList.Where(w => w.customerId == value.customerId);
+            if(result.Count() > 0)
             {
-                var response = new
+                var alreadyExistsResponse = new
                 {
                     statusCode = StatusCodes.Status208AlreadyReported,
-                    message = "Customer with the same ID already Exists",
-                    data = singleCustomer
+                    message = ConstantMessages.customerAlreadyExists,
+                    data = result
                 };
-                return Accepted(response);
+                return Accepted(alreadyExistsResponse);
             }
-            allCustomersData.customersList.Add(value);
-            var response2 = new
+            else
             {
-                statusCode = StatusCodes.Status201Created,
-                message = "Customer Added Successfully",
-                data = value
-            };
-            return Created($"~api/Customer/{value.customerId}", response2);
+                allCustomersData.customersList.Add(value);
+                var createdResponse = new
+                {
+                    statusCode = StatusCodes.Status201Created,
+                    message = ConstantMessages.customerAddedSuccessfully,
+                    data = value
+                };
+                return Ok(createdResponse);
+            }
         }
 
         // PUT api/Customer/{id}
@@ -139,30 +122,33 @@ namespace CustomerLocationAssignment.Controllers
         /// <response code="400">  Bad Request</response>
         /// <response code="404">  If Controller or Data not Found</response>
         [HttpPut("{id}")]
-        public IActionResult Put(string id, [FromBody] Customer inputCustomer)
+        public IActionResult Put(string id, string streetAddress, [FromBody] Address inputAddress)
         {
-            foreach (var singleCustomer in allCustomersData.customersList.Where(w => w.customerId == id))
+            Customer singleCustomer = allCustomersData.customersList.FirstOrDefault(w => w.customerId == id);
+            if(singleCustomer != null)
             {
-                singleCustomer.customerId = inputCustomer.customerId;
-                singleCustomer.locations = inputCustomer.locations;
+                Address customerAddress = singleCustomer.locations.FirstOrDefault(w => w.street == streetAddress);
+                customerAddress.street = inputAddress.street;
+                customerAddress.town = inputAddress.town;
+                customerAddress.city = inputAddress.city;
                 var response = new
                 {
                     statusCode = StatusCodes.Status200OK,
-                    message = "Data Updated Successfully",
+                    message = ConstantMessages.dataUpdatedSuccessfully,
                     data = singleCustomer
                 };
                 return Ok(response);
-            }                                               //What is updated ID already exists??
-            Customer nullCustomer = new Customer();
-            nullCustomer.customerId = null;
-            nullCustomer.locations = null;
-            var response2 = new
+            }                                   //What if updated ID already exists
+            else
             {
-                statusCode = StatusCodes.Status404NotFound,
-                message = "Unsuccessful Data Updation. Customer with this ID does not Exist",
-                data = nullCustomer
-            };
-            return NotFound(response2);
+                var response = new
+                {
+                    statusCode = StatusCodes.Status404NotFound,
+                    message = ConstantMessages.customerDoesNotExist,
+                    data = String.Empty
+                };
+                return NotFound(response);
+            }
         }
 
         // DELETE api/Customer/{id}
@@ -181,43 +167,39 @@ namespace CustomerLocationAssignment.Controllers
         /// <response code="404">  If Controller or Data not Found</response>
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
-        {
-            
-            foreach (var singleCustomer in allCustomersData.customersList.Where(w => w.customerId == id))
+        {           
+            Customer singleCustomer = allCustomersData.customersList.FirstOrDefault(w => w.customerId == id);
+            if (singleCustomer.locations[0] != null)
             {
-                if (singleCustomer.locations[0] == null)
+                var response2 = new
                 {
-                    allCustomersData.customersList.Remove(singleCustomer);
-                    var response = new
-                    {
-                        statusCode = StatusCodes.Status204NoContent,
-                        message = "Data Deletion Successful",
-                        data = "No Content"
-                    };
-                    return Ok(response);
-                }
-                else
-                {
-                    var response2 = new
-                    {
-                        statusCode = StatusCodes.Status400BadRequest,
-                        message = "Unsuccessful Data Deletion- Customer Record Contains Locations. Remove Locations First",
-                        data = singleCustomer
-                    };
-                    return BadRequest(response2);
-                }
+                    statusCode = StatusCodes.Status400BadRequest,
+                    message = ConstantMessages.dataContainsLocations,
+                    data = singleCustomer
+                };
+                return BadRequest(response2);
             }
-            Customer nullCustomer = new Customer();
-            nullCustomer.customerId = null;
-            nullCustomer.locations = null;
-            var response3 = new
+            else if(singleCustomer.locations[0] == null)
             {
-
-                statusCode = StatusCodes.Status404NotFound,
-                message = "Unsuccessful Data Deletion. Customer with this ID does not Exist",
-                data = nullCustomer
-            };
-            return NotFound(response3);
+                allCustomersData.customersList.Remove(singleCustomer);
+                var response = new
+                {
+                    statusCode = StatusCodes.Status204NoContent,
+                    message = ConstantMessages.dataDeletedSuccessfully,
+                    data = String.Empty
+                };
+                return Ok(response);
+            }
+            else
+            {
+                var response3 = new
+                {
+                    statusCode = StatusCodes.Status404NotFound,
+                    message = ConstantMessages.customerDoesNotExist,
+                    data = String.Empty
+                };
+                return NotFound(response3);
+            }            
         }
     }
 }
