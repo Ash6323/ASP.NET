@@ -1,18 +1,18 @@
 {[
-{"CustomerID": "1", "Locations": [{"Street": "A1", "Town": "TownA1", "City": "Delhi"}, 
-				{"Street": "A2", "Town": "TownA2", "City": "Mumbai"}]},
+{"customerId": "1", "locations": [{"street": "A1", "town": "TownA1", "city": "Delhi"}, 
+				{"street": "A2", "town": "TownA2", "city": "Mumbai"}]},
 
-{"CustomerID": "2", "Locations": [{"Street": "B1", "Town": "TownB1", "City": "Pune"},
-				{"Street": "B2", "Town": "TownB2", "City": "Hyderabad"}]},
+{"customerId": "2", "locations": [{"street": "B1", "town": "TownB1", "city": "Pune"},
+				{"street": "B2", "town": "TownB2", "city": "Hyderabad"}]},
 
-{"CustomerID": "3", "Locations": [{"Street": "C1", "Town": "TownC1", "City": "Bangalore"},
-				{"Street": "C2", "Town": "TownC2", "City": "Noida"}]},
+{"customerId": "3", "locations": [{"street": "C1", "town": "TownC1", "city": "Bangalore"},
+				{"street": "C2", "town": "TownC2", "city": "Noida"}]},
 
-{"CustomerID": "4", "Locations": [{"Street": "D1", "Town": "TownD1", "City": "Mumbai"},
-				{"Street": "D2", "Town": "TownD2", "City": "Hyderabad"}]},
+{"customerId": "4", "locations": [{"street": "D1", "town": "TownD1", "city": "Mumbai"},
+				{"street": "D2", "town": "TownD2", "city": "Hyderabad"}]},
 
-{"CustomerID": "5", "Locations": [{"Street": "E1", "Town": "TownE1", "City": "Noida"},
-				{"Street": "E2", "Town": "TownE2", "City": "Mumbai"}]}
+{"customerId": "5", "locations": [{"street": "E1", "town": "TownE1", "city": "Noida"},
+				{"street": "E2", "town": "TownE2", "city": "Mumbai"}]}
 ]}
 
 
