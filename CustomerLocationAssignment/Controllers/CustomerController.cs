@@ -10,7 +10,6 @@ namespace CustomerLocationAssignment.Controllers
     public class CustomerController : ControllerBase
     {
         public static CustomerListClass allCustomersData = new CustomerListClass();
-        ResponseBody response = new ResponseBody();
 
         // GET: api/Customer
 
@@ -26,15 +25,10 @@ namespace CustomerLocationAssignment.Controllers
         /// <response code="200">  If Customers are Found and Response is Given</response>
         /// <response code="400">  If Anything is Missing from Client Side's Request</response>
         /// <response code="404">  If Data not Found</response>
-        [HttpGet]  
+        [HttpGet]
         public IActionResult Get()
         {
-            var response = new
-            {
-                statusCode = StatusCodes.Status200OK,
-                message = ConstantMessages.dataRetrievedSuccessfully,
-                data = allCustomersData.customersList
-            };
+            CustomerListResponse response = new CustomerListResponse(StatusCodes.Status200OK, ConstantMessages.dataRetrievedSuccessfully, allCustomersData.customersList);
             return Ok(response);
         }
 
@@ -56,14 +50,9 @@ namespace CustomerLocationAssignment.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(string id)
         {
-           IEnumerable<Customer> result = allCustomersData.customersList.Where(w => w.customerId == id);
-           var response = new
-           {
-               statusCode = StatusCodes.Status200OK,
-               message = ConstantMessages.dataRetrievedSuccessfully,
-               data = result
-           };
-           return Ok(response);
+            IEnumerable<Customer> result = allCustomersData.customersList.Where(w => w.customerId == id);
+            CustomerEnumerableResponse response = new CustomerEnumerableResponse(StatusCodes.Status200OK, ConstantMessages.dataRetrievedSuccessfully, result);
+            return Ok(response);
         }
 
         // POST api/Customer
@@ -84,26 +73,16 @@ namespace CustomerLocationAssignment.Controllers
         public IActionResult Post([FromBody] Customer value)
         {
             IEnumerable<Customer> result = allCustomersData.customersList.Where(w => w.customerId == value.customerId);
-            if(result.Count() > 0)
+            if (result.Any())
             {
-                var alreadyExistsResponse = new
-                {
-                    statusCode = StatusCodes.Status208AlreadyReported,
-                    message = ConstantMessages.customerAlreadyExists,
-                    data = result
-                };
-                return Accepted(alreadyExistsResponse);
+                CustomerEnumerableResponse response = new CustomerEnumerableResponse(StatusCodes.Status208AlreadyReported, ConstantMessages.customerAlreadyExists, result);
+                return Accepted(response);
             }
             else
             {
                 allCustomersData.customersList.Add(value);
-                var createdResponse = new
-                {
-                    statusCode = StatusCodes.Status201Created,
-                    message = ConstantMessages.customerAddedSuccessfully,
-                    data = value
-                };
-                return Ok(createdResponse);
+                CustomerResponse response = new CustomerResponse(StatusCodes.Status201Created, ConstantMessages.customerAddedSuccessfully, value);
+                return Ok(response);
             }
         }
 
@@ -125,28 +104,18 @@ namespace CustomerLocationAssignment.Controllers
         public IActionResult Put(string id, string streetAddress, [FromBody] Address inputAddress)
         {
             Customer singleCustomer = allCustomersData.customersList.FirstOrDefault(w => w.customerId == id);
-            if(singleCustomer != null)
+            if (singleCustomer != null)
             {
                 Address customerAddress = singleCustomer.locations.FirstOrDefault(w => w.street == streetAddress);
                 customerAddress.street = inputAddress.street;
                 customerAddress.town = inputAddress.town;
                 customerAddress.city = inputAddress.city;
-                var response = new
-                {
-                    statusCode = StatusCodes.Status200OK,
-                    message = ConstantMessages.dataUpdatedSuccessfully,
-                    data = singleCustomer
-                };
+                CustomerResponse response = new CustomerResponse(StatusCodes.Status200OK, ConstantMessages.dataUpdatedSuccessfully, singleCustomer);
                 return Ok(response);
-            }                                   //What if updated ID already exists
+            }
             else
             {
-                var response = new
-                {
-                    statusCode = StatusCodes.Status404NotFound,
-                    message = ConstantMessages.customerDoesNotExist,
-                    data = String.Empty
-                };
+                CustomerResponse response = new CustomerResponse(StatusCodes.Status404NotFound, ConstantMessages.customerDoesNotExist, (Customer)null);
                 return NotFound(response);
             }
         }
@@ -167,39 +136,24 @@ namespace CustomerLocationAssignment.Controllers
         /// <response code="404">  If Controller or Data not Found</response>
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
-        {           
+        {
             Customer singleCustomer = allCustomersData.customersList.FirstOrDefault(w => w.customerId == id);
             if (singleCustomer.locations[0] != null)
             {
-                var response2 = new
-                {
-                    statusCode = StatusCodes.Status400BadRequest,
-                    message = ConstantMessages.dataContainsLocations,
-                    data = singleCustomer
-                };
-                return BadRequest(response2);
+                CustomerResponse response = new CustomerResponse(StatusCodes.Status400BadRequest, ConstantMessages.dataContainsLocations, singleCustomer);
+                return BadRequest(response);
             }
-            else if(singleCustomer.locations[0] == null)
+            else if (singleCustomer.locations[0] == null)
             {
                 allCustomersData.customersList.Remove(singleCustomer);
-                var response = new
-                {
-                    statusCode = StatusCodes.Status204NoContent,
-                    message = ConstantMessages.dataDeletedSuccessfully,
-                    data = String.Empty
-                };
+                CustomerResponse response = new CustomerResponse(StatusCodes.Status204NoContent, ConstantMessages.dataDeletedSuccessfully, (Customer)null);
                 return Ok(response);
             }
             else
             {
-                var response3 = new
-                {
-                    statusCode = StatusCodes.Status404NotFound,
-                    message = ConstantMessages.customerDoesNotExist,
-                    data = String.Empty
-                };
-                return NotFound(response3);
-            }            
+                CustomerResponse response = new CustomerResponse(StatusCodes.Status404NotFound, ConstantMessages.customerDoesNotExist, (Customer)null);
+                return NotFound(response);
+            }
         }
     }
 }
