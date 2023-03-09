@@ -1,5 +1,4 @@
-﻿using System.Security.Cryptography.Xml;
-using CustomerLocationAssignment.Models;
+﻿using CustomerLocationAssignment.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -10,7 +9,7 @@ namespace CustomerLocationAssignment.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        public static CustomerListClass allCustomersData = new CustomerListClass();
+        public static CustomerListClass AllCustomersData = new CustomerListClass();
 
         // GET: api/Customer
 
@@ -18,18 +17,18 @@ namespace CustomerLocationAssignment.Controllers
         /// Returns All Customer Data
         /// </summary>
         /// <remarks>
-        /// Sample request:     
+        /// Sample request:
         ///
         ///     Get /api/Customer/
         ///
         /// </remarks>
         /// <response code="200">  If Customers are Found and Response is Given</response>
         /// <response code="400">  If Anything is Missing from Client Side's Request</response>
-        /// <response code="404">  If Data not Found</response>
         [HttpGet]
         public IActionResult Get()
         {
-            Response<List<Customer>> response = new Response<List<Customer>>(StatusCodes.Status200OK, ConstantMessages.dataRetrievedSuccessfully, allCustomersData.customersList);
+            Response<List<Customer>> response = new 
+                (StatusCodes.Status200OK, ConstantMessages.dataRetrievedSuccessfully, AllCustomersData.customersList);
             return Ok(response);
         }
 
@@ -51,12 +50,16 @@ namespace CustomerLocationAssignment.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(string id)
         {
-            if (allCustomersData.customersList.Any(w => w.customerId == id))
+            if (AllCustomersData.customersList.Any(w => w.customerId == id))
             {
-                var customerExistsResponse = new Response<IEnumerable<Customer>>(StatusCodes.Status200OK, ConstantMessages.dataRetrievedSuccessfully, allCustomersData.customersList.Where(w => w.customerId == id));
+                var customerExistsResponse = new Response<IEnumerable<Customer>>
+                    (StatusCodes.Status200OK, 
+                    ConstantMessages.dataRetrievedSuccessfully, 
+                    AllCustomersData.customersList.Where(w => w.customerId == id));
                 return Ok(customerExistsResponse);
             }
-            var customerNotExistsresponse = new Response<IEnumerable<Customer>>(StatusCodes.Status404NotFound, ConstantMessages.customerDoesNotExist, null);
+            var customerNotExistsresponse = new Response<IEnumerable<Customer>>
+                (StatusCodes.Status404NotFound, ConstantMessages.customerDoesNotExist, null);
             return NotFound(customerNotExistsresponse);
         }
 
@@ -77,16 +80,17 @@ namespace CustomerLocationAssignment.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] Customer value)
         {
-            IEnumerable<Customer> result = allCustomersData.customersList.Where(w => w.customerId == value.customerId);
+            IEnumerable<Customer> result = AllCustomersData.customersList.Where(w => w.customerId == value.customerId);
             if (result.Any())
             {
-                var response = new Response<IEnumerable<Customer>>(StatusCodes.Status208AlreadyReported, ConstantMessages.customerAlreadyExists, result);
+                var response = new Response<IEnumerable<Customer>>
+                    (StatusCodes.Status208AlreadyReported, ConstantMessages.customerAlreadyExists, result);
                 return Accepted(response);
             }
             else
             {
-                allCustomersData.customersList.Add(value);
-                Response<Customer> response = new Response<Customer>(StatusCodes.Status201Created, ConstantMessages.customerAddedSuccessfully, value);
+                AllCustomersData.customersList.Add(value);
+                Response<Customer> response = new (StatusCodes.Status201Created, ConstantMessages.customerAddedSuccessfully, value);
                 return Ok(response);
             }
         }
@@ -108,19 +112,19 @@ namespace CustomerLocationAssignment.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(string id, string streetAddress, [FromBody] Address inputAddress)
         {
-            Customer singleCustomer = allCustomersData.customersList.FirstOrDefault(w => w.customerId == id);
+            Customer singleCustomer = AllCustomersData.customersList.FirstOrDefault(w => w.customerId == id);
             if (singleCustomer != null)
             {
                 Address customerAddress = singleCustomer.locations.FirstOrDefault(w => w.street == streetAddress);
                 customerAddress.street = inputAddress.street;
                 customerAddress.town = inputAddress.town;
                 customerAddress.city = inputAddress.city;
-                Response<Customer> response = new Response<Customer>(StatusCodes.Status200OK, ConstantMessages.dataUpdatedSuccessfully, singleCustomer);
+                Response<Customer> response = new (StatusCodes.Status200OK, ConstantMessages.dataUpdatedSuccessfully, singleCustomer);
                 return Ok(response);
             }
             else
             {
-                Response<Customer> response = new Response<Customer>(StatusCodes.Status404NotFound, ConstantMessages.customerDoesNotExist, null);
+                Response<Customer> response = new (StatusCodes.Status404NotFound, ConstantMessages.customerDoesNotExist, null);
                 return NotFound(response);
             }
         }
@@ -142,21 +146,21 @@ namespace CustomerLocationAssignment.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
-            Customer singleCustomer = allCustomersData.customersList.FirstOrDefault(w => w.customerId == id);
+            Customer singleCustomer = AllCustomersData.customersList.FirstOrDefault(w => w.customerId == id);
             if (singleCustomer.locations[0].street != String.Empty && singleCustomer.locations[0].town != String.Empty && singleCustomer.locations[0].city != String.Empty)
             {
-                Response<Customer> response = new Response<Customer>(StatusCodes.Status400BadRequest, ConstantMessages.dataContainsLocations, singleCustomer);
+                Response<Customer> response = new (StatusCodes.Status400BadRequest, ConstantMessages.dataContainsLocations, singleCustomer);
                 return BadRequest(response);
             }
             else if (singleCustomer.locations[0].street == String.Empty && singleCustomer.locations[0].town == String.Empty && singleCustomer.locations[0].city == String.Empty)
             {
-                allCustomersData.customersList.Remove(singleCustomer);
-                Response<Customer> response = new Response<Customer>(StatusCodes.Status204NoContent, ConstantMessages.dataDeletedSuccessfully, null);
+                AllCustomersData.customersList.Remove(singleCustomer);
+                Response<Customer> response = new (StatusCodes.Status204NoContent, ConstantMessages.dataDeletedSuccessfully, null);
                 return Ok(response);
             }
             else
             {
-                Response<Customer> response = new Response<Customer>(StatusCodes.Status404NotFound, ConstantMessages.customerDoesNotExist, null);
+                Response<Customer> response = new (StatusCodes.Status404NotFound, ConstantMessages.customerDoesNotExist, null);
                 return NotFound(response);
             }
         }
