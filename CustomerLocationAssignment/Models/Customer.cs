@@ -16,42 +16,17 @@
     {
         public List<Customer> customersList { get; set; } = new List<Customer>();
     }
-    public class CustomerListResponse
+    public class Response<T>
     {
-        public CustomerListResponse(int status, string responseMessage, List<Customer> listData)
+        public Response(int status, string responseMessage, T data)
         {
             this.statusCode = status;
             this.message = responseMessage;
-            this.customerListData = listData;
+            this.data = data;
         }
         public int statusCode { get; set; }
         public string message { get; set; } = String.Empty;
-        public List<Customer> customerListData { get; set; } = null;
-    }
-    public class CustomerEnumerableResponse
-    {
-        public CustomerEnumerableResponse(int status, string responseMessage, IEnumerable<Customer> customerData)
-        {
-            this.statusCode = status;
-            this.message = responseMessage;
-            this.customerData = customerData;
-        }
-        public int statusCode { get; set; }
-        public string message { get; set; } = String.Empty;
-        public IEnumerable<Customer> customerData { get; set; } = Enumerable.Empty<Customer>();
-
-    }
-    public class CustomerResponse
-    {
-        public CustomerResponse(int status, string responseMessage, Customer customerData)
-        {
-            this.statusCode = status;
-            this.message = responseMessage;
-            this.customerObjectData = customerData;
-        }
-        public int statusCode { get; set; }
-        public string message { get; set; } = String.Empty;
-        public Customer customerObjectData { get; set; } = null;
+        public T data { get; set; }
     }
 }
 
