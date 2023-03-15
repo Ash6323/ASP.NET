@@ -7,7 +7,7 @@ namespace CustomerLocationAssignment.Controllers
 {
     [Route("api/customer")]
     [ApiController]
-    public class CustomerController : ControllerBase
+    class CustomerController : ControllerBase
     {
         public static CustomerListClass AllCustomersData = new CustomerListClass();
 
