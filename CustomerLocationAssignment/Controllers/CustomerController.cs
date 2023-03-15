@@ -30,6 +30,7 @@ namespace CustomerLocationAssignment.Controllers
             Response<List<Customer>> response = new 
                 (StatusCodes.Status200OK, ConstantMessages.dataRetrievedSuccessfully, AllCustomersData.customersList);
             return Ok(response);
+            //List<cudt>= Service.Method()
         }
 
         // GET api/Customer/{CustomerID}

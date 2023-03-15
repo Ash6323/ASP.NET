@@ -15,7 +15,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerLocationAssignment"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileUploadAssignment", "FileUploadAssignment\FileUploadAssignment.csproj", "{85DFDF1D-5BCF-4A0B-9768-43AEB8942F1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestFilters", "TestFilters\TestFilters.csproj", "{87C402E5-7311-4763-A6BA-B6875836AA24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestFilters", "TestFilters\TestFilters.csproj", "{87C402E5-7311-4763-A6BA-B6875836AA24}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CustomerLocationRP", "CustomerLocationRP", "{B6775D0F-15CD-472A-A1B2-12B152FE6A0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerLocationRP.Services", "CustomerLocationRP.Services\CustomerLocationRP.Services.csproj", "{56C75ED0-5B24-4B78-AE9D-2D68B591E621}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerLocationRP.WebAPI", "CustomerLocationRP.WebAPI\CustomerLocationRP.WebAPI.csproj", "{C9642642-DE03-4497-8854-0DE8EA813FFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,9 +57,21 @@ Global
 		{87C402E5-7311-4763-A6BA-B6875836AA24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87C402E5-7311-4763-A6BA-B6875836AA24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87C402E5-7311-4763-A6BA-B6875836AA24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56C75ED0-5B24-4B78-AE9D-2D68B591E621}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56C75ED0-5B24-4B78-AE9D-2D68B591E621}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56C75ED0-5B24-4B78-AE9D-2D68B591E621}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56C75ED0-5B24-4B78-AE9D-2D68B591E621}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9642642-DE03-4497-8854-0DE8EA813FFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9642642-DE03-4497-8854-0DE8EA813FFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9642642-DE03-4497-8854-0DE8EA813FFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9642642-DE03-4497-8854-0DE8EA813FFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{56C75ED0-5B24-4B78-AE9D-2D68B591E621} = {B6775D0F-15CD-472A-A1B2-12B152FE6A0A}
+		{C9642642-DE03-4497-8854-0DE8EA813FFC} = {B6775D0F-15CD-472A-A1B2-12B152FE6A0A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6B625223-5B2D-488C-9F33-04C6D5D8B9FC}
