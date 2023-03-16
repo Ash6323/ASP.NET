@@ -56,7 +56,7 @@ namespace CustomerLocationRP.WebAPI.Controllers
         /// <response code="400">  If Anything is Missing from Client Side's Request</response>
         /// <response code="404">  If Customer not Found</response>
         [HttpGet("{id}")]
-        public IActionResult Get(string id)
+        public IActionResult Get(int id)
         {
             Customer result = _customerService.GetCustomer(id);
             if (result != null)
@@ -87,17 +87,11 @@ namespace CustomerLocationRP.WebAPI.Controllers
         [HttpPost]
         public IActionResult Post(Customer value)
         {
-            string result = _customerService.AddCustomer(value);
-            if (result.Equals("-1"))
+            int result = _customerService.AddCustomer(value);
+            if (result.Equals(-1))
             {
                 Response response = new
                     (StatusCodes.Status208AlreadyReported, ConstantMessages.customerAlreadyExists, ConstantMessages.customerAlreadyExists);
-                return Ok(response);
-            }
-            else if(result.Equals("-2"))
-            {
-                Response response = new
-                    (StatusCodes.Status400BadRequest, ConstantMessages.customerIdInvalid, ConstantMessages.customerIdInvalid);
                 return Ok(response);
             }
             else
@@ -105,7 +99,7 @@ namespace CustomerLocationRP.WebAPI.Controllers
                 Response response = new
                 (StatusCodes.Status201Created, ConstantMessages.customerAddedSuccessfully, result);
                 return Ok(response);
-            }           
+            }
         }
 
         // PUT api/<CustomerController>/5
@@ -123,16 +117,16 @@ namespace CustomerLocationRP.WebAPI.Controllers
         /// <response code="400">  Customer Location ID Doesn't Exist</response>
         /// <response code="404">  If Controller or Data not Found</response>
         [HttpPut("{id}")]
-        public IActionResult Put(string id, int locationID, string street, string town, string city)
+        public IActionResult Put(int id, int locationID, Address address)
         {
-            string result = _customerService.UpdateCustomer(id, locationID, street, town, city);
-            if (result.Equals("-1"))
+            int result = _customerService.UpdateCustomer(id, locationID, address);
+            if (result.Equals(-1))
             {
                 Response response = new
                     (StatusCodes.Status404NotFound, ConstantMessages.customerDoesNotExist, ConstantMessages.customerDoesNotExist);
                 return NotFound(response);
             }
-            else if(result.Equals("-2"))
+            else if(result.Equals(0))
             {
                 Response response = new
                     (StatusCodes.Status400BadRequest, ConstantMessages.locationIdDoesntExist, ConstantMessages.locationIdDoesntExist);
@@ -160,15 +154,15 @@ namespace CustomerLocationRP.WebAPI.Controllers
         /// <response code="400">  If Customer has Existing Locations in Data</response>
         /// <response code="404">  If Customer not Found</response>
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public IActionResult Delete(int id)
         {
-            string result = _customerService.DeleteCustomer(id);
-            if (result.Equals("-1"))
+            int result = _customerService.DeleteCustomer(id);
+            if (result.Equals(-1))
             {
                 Response response = new(StatusCodes.Status400BadRequest, ConstantMessages.dataContainsLocations, result);
                 return BadRequest(response);
             }
-            else if (result.Equals("-2"))
+            else if (result.Equals(0))
             {
                 Response response = new(StatusCodes.Status404NotFound, ConstantMessages.customerDoesNotExist, null);
                 return NotFound(response);

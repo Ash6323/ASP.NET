@@ -8,7 +8,7 @@ namespace CustomerLocationRP.Services.Models
 {
     public class Customer
     {
-        public string CustomerId { get; set; } = String.Empty;
+        public int CustomerId { get; set; }
         public List<Address> Locations { get; set; } = new List<Address>();
     }
 }
