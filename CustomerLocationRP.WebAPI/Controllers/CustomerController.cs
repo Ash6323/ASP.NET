@@ -37,7 +37,6 @@ namespace CustomerLocationRP.WebAPI.Controllers
                 Response response = new (StatusCodes.Status200OK, ConstantMessages.dataRetrievedSuccessfully, result);
                 return Ok(response);
             }
-
             return NoContent();
         }
 
@@ -59,12 +58,11 @@ namespace CustomerLocationRP.WebAPI.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(string id)
         {
-            IEnumerable<Customer> result = _customerService.GetCustomer(id);
+            Customer result = _customerService.GetCustomer(id);
             if (result != null)
             {
                 Response customerExistsResponse = new
                     (StatusCodes.Status200OK, ConstantMessages.dataRetrievedSuccessfully, result);
-
                 return Ok(customerExistsResponse);
             }
             Response customerNotExistsresponse = new
@@ -85,23 +83,29 @@ namespace CustomerLocationRP.WebAPI.Controllers
         /// </remarks>
         /// <response code="201">  If Customer Data is Submitted Successfully</response>
         /// <response code="208">  If Customer with the the same ID already Exists</response>
-        /// <response code="400">  If Anything is Missing from Client Side's Request</response>
+        /// <response code="400">  If Entered Customer ID is Invalid</response>
         [HttpPost]
         public IActionResult Post(Customer value)
         {
-            Customer result = _customerService.AddCustomer(value);
-            if (result == value)
+            string result = _customerService.AddCustomer(value);
+            if (result.Equals("-1"))
             {
-                var response = new Response
-                    (StatusCodes.Status201Created, ConstantMessages.customerAddedSuccessfully, result);
+                Response response = new
+                    (StatusCodes.Status208AlreadyReported, ConstantMessages.customerAlreadyExists, ConstantMessages.customerAlreadyExists);
+                return Ok(response);
+            }
+            else if(result.Equals("-2"))
+            {
+                Response response = new
+                    (StatusCodes.Status400BadRequest, ConstantMessages.customerIdInvalid, ConstantMessages.customerIdInvalid);
                 return Ok(response);
             }
             else
             {
                 Response response = new
-                    (StatusCodes.Status208AlreadyReported, ConstantMessages.customerAlreadyExists, value);
+                (StatusCodes.Status201Created, ConstantMessages.customerAddedSuccessfully, result);
                 return Ok(response);
-            }
+            }           
         }
 
         // PUT api/<CustomerController>/5
@@ -116,21 +120,28 @@ namespace CustomerLocationRP.WebAPI.Controllers
         ///
         /// </remarks>
         /// <response code="200">  If Customer is Found and the Data is Updated</response>
-        /// <response code="400">  Bad Request</response>
+        /// <response code="400">  Customer Location ID Doesn't Exist</response>
         /// <response code="404">  If Controller or Data not Found</response>
         [HttpPut("{id}")]
-        public IActionResult Put(string id, string streetAddress, [FromBody] Address inputAddress)
+        public IActionResult Put(string id, int locationID, string street, string town, string city)
         {
-            Customer result = _customerService.UpdateCustomer(id, streetAddress, inputAddress);
-            if (result != null)
+            string result = _customerService.UpdateCustomer(id, locationID, street, town, city);
+            if (result.Equals("-1"))
             {
-                Response response = new(StatusCodes.Status200OK, ConstantMessages.dataUpdatedSuccessfully, result);
-                return Ok(response);
+                Response response = new
+                    (StatusCodes.Status404NotFound, ConstantMessages.customerDoesNotExist, ConstantMessages.customerDoesNotExist);
+                return NotFound(response);
+            }
+            else if(result.Equals("-2"))
+            {
+                Response response = new
+                    (StatusCodes.Status400BadRequest, ConstantMessages.locationIdDoesntExist, ConstantMessages.locationIdDoesntExist);
+                return BadRequest(response);
             }
             else
             {
-                Response response = new(StatusCodes.Status404NotFound, ConstantMessages.customerDoesNotExist, null);
-                return NotFound(response);
+                Response response = new(StatusCodes.Status200OK, ConstantMessages.dataUpdatedSuccessfully, result);
+                return Ok(response);
             }
         }
 
@@ -151,11 +162,16 @@ namespace CustomerLocationRP.WebAPI.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(string id)
         {
-            Customer result = _customerService.DeleteCustomer(id);
-            if (result != null)
+            string result = _customerService.DeleteCustomer(id);
+            if (result.Equals("-1"))
             {
                 Response response = new(StatusCodes.Status400BadRequest, ConstantMessages.dataContainsLocations, result);
                 return BadRequest(response);
+            }
+            else if (result.Equals("-2"))
+            {
+                Response response = new(StatusCodes.Status404NotFound, ConstantMessages.customerDoesNotExist, null);
+                return NotFound(response);
             }
             else
             {

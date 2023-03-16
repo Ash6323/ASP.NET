@@ -1,3 +1,4 @@
+using System.Reflection;
 using CustomerLocationRP.Services.Interfaces;
 namespace CustomerLocationRP.WebAPI
 {
@@ -10,6 +11,14 @@ namespace CustomerLocationRP.WebAPI
             // Add services to the container.
 
             builder.Services.AddControllers();
+
+            builder.Services.AddSwaggerGen(c =>
+            {
+                // generate the XML docs that'll drive the swagger docs
+                var xmlFile = $" {Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments("E:\\Work\\IncubXperts\\ASP.NET\\CustomerLocationRP.WebAPI\\bin\\Debug\\net6.0\\xml-documentation.xml");
+            });
 
             builder.Services.AddSingleton<ICustomerService, CustomerService>();
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ namespace CustomerLocationRP.Services.Models
 {
     public class Address
     {
+        public int Id { get; set; }
         public string Street { get; set; } = String.Empty;
         public string Town { get; set; } = String.Empty;
         public string City { get; set; } = String.Empty;
