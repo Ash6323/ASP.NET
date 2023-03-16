@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace CustomerLocationRP.Services.Models
 {
-    public class Response<T>
+    public class Response
     {
-        public Response(int status, string responseMessage, T data)
+        public Response(dynamic?statusCode, dynamic? responseMessage, dynamic? data)
         {
-            this.StatusCode = status;
+            this.statusCode = statusCode;
             this.Message = responseMessage;
             this.Data = data;
         }
-        private int StatusCode { get; set; }
-        private string Message { get; set; } = String.Empty;
-        private T Data { get; set; }
+        public dynamic statusCode { get; set; }
+        public dynamic Message { get; set; }
+        public dynamic Data { get; set; }
     }
 }

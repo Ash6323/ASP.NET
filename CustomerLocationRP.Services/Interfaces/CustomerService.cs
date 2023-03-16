@@ -18,36 +18,35 @@ namespace CustomerLocationRP.Services.Interfaces
 
     public class CustomerService : ICustomerService
     {
-        internal static CustomerListClass AllCustomersData = new();
-
+        public static List<Customer> Customers = new();
         public List<Customer> GetAllCustomer()
         {
-            return AllCustomersData.CustomersList;
+            return Customers;
         }
         public IEnumerable<Customer> GetCustomer(string id)
         {
-            if (AllCustomersData.CustomersList.Any(w => w.CustomerId == id))
+            if (Customers.Any(w => w.CustomerId == id))
             {
-                return AllCustomersData.CustomersList.Where(w => w.CustomerId == id);
+                return Customers.Where(w => w.CustomerId == id);
             }
             return null;
         }
         public Customer AddCustomer(Customer customer)
         {
-            IEnumerable<Customer> result = AllCustomersData.CustomersList.Where(w => w.CustomerId == customer.CustomerId);
+            IEnumerable<Customer> result = Customers.Where(w => w.CustomerId == customer.CustomerId);
             if (result.Any())
             {
                 return result.First();
             }
             else
             {
-                AllCustomersData.CustomersList.Add(customer);
+                Customers.Add(customer);
                 return customer;
             }
         }
         public Customer UpdateCustomer(string id, string streetAddress, Address inputAddress)
         {
-            Customer singleCustomer = AllCustomersData.CustomersList.FirstOrDefault(w => w.CustomerId == id);
+            Customer singleCustomer = Customers.FirstOrDefault(w => w.CustomerId == id);
             if (singleCustomer != null)
             {
                 Address customerAddress = singleCustomer.Locations.FirstOrDefault(w => w.Street == streetAddress);
@@ -63,14 +62,14 @@ namespace CustomerLocationRP.Services.Interfaces
         }
         public Customer DeleteCustomer(string id)
         {
-            Customer singleCustomer = AllCustomersData.CustomersList.FirstOrDefault(w => w.CustomerId == id);
+            Customer singleCustomer = Customers.FirstOrDefault(w => w.CustomerId == id);
             if ((singleCustomer.Locations[0].Street != String.Empty) || (singleCustomer.Locations[0].Town != String.Empty) || (singleCustomer.Locations[0].City != String.Empty))
             {
                 return singleCustomer;
             }
             else if (singleCustomer.Locations[0].Street == String.Empty && singleCustomer.Locations[0].Town == String.Empty && singleCustomer.Locations[0].City == String.Empty)
             {
-                AllCustomersData.CustomersList.Remove(singleCustomer);
+                Customers.Remove(singleCustomer);
                 return null;
             }
             else
