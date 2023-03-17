@@ -3,7 +3,7 @@ using CustomerLocationRP.Services.Models;
 
 namespace CustomerLocationRP.Services.Interfaces
 {
-    public interface ICustomerService
+    public interface ICustomer
     {
         List<Customer> GetAllCustomer();
         Customer GetCustomer(int id);
@@ -12,10 +12,11 @@ namespace CustomerLocationRP.Services.Interfaces
         int DeleteCustomer(int id);
     }
 
-    public class CustomerService : ICustomerService
+    public class CustomerService : ICustomer
     {
         public static List<Customer> Customers = new List<Customer>();
-        public static int custID = 1;
+        public static int CustomerID = 1;
+        public static int LocationID = 1;
         public List<Customer> GetAllCustomer()
         {
             return Customers;
@@ -29,7 +30,11 @@ namespace CustomerLocationRP.Services.Interfaces
             Customer result = Customers.Where(w => w.CustomerId == customer.CustomerId).FirstOrDefault();
             if (result == null)
             {
-                customer.CustomerId = custID++;
+                customer.CustomerId = CustomerID++;
+                foreach(Address address in customer.Locations)
+                {
+                    address.Id = LocationID++;
+                }
                 Customers.Add(customer);
                 return customer.CustomerId;
             }
@@ -56,12 +61,12 @@ namespace CustomerLocationRP.Services.Interfaces
         public int DeleteCustomer(int id)
         {
             Customer customer = Customers.FirstOrDefault(w => w.CustomerId == id);
-            Address location = customer.Locations[0];
-            if (location.Id > 0)
+            Address address = customer.Locations[0];
+            if (address.Id > 0)
             {
                 return -1;
             }
-            else if (location.Id < 1)
+            else if (address.Id < 1)
             {
                 Customers.Remove(customer);
                 return customer.CustomerId;

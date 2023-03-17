@@ -20,7 +20,7 @@ namespace CustomerLocationRP.WebAPI
                 c.IncludeXmlComments("E:\\Work\\IncubXperts\\ASP.NET\\CustomerLocationRP.WebAPI\\bin\\Debug\\net6.0\\xml-documentation.xml");
             });
 
-            builder.Services.AddSingleton<ICustomerService, CustomerService>();
+            builder.Services.AddSingleton<ICustomer, CustomerService>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

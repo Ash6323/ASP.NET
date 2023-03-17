@@ -16,6 +16,7 @@
              </remarks>
              <response code="200">  If Customers are Found and Response is Given</response>
              <response code="400">  If Anything is Missing from Client Side's Request</response>
+             <response code="500">  Internal Server Error</response>
         </member>
         <member name="M:CustomerLocationRP.WebAPI.Controllers.CustomerController.Get(System.Int32)">
              <summary>
@@ -31,6 +32,7 @@
              <response code="200">  If Customer is Found and Response is Given</response>
              <response code="400">  If Anything is Missing from Client Side's Request</response>
              <response code="404">  If Customer not Found</response>
+             <response code="500">  Internal Server Error</response>
         </member>
         <member name="M:CustomerLocationRP.WebAPI.Controllers.CustomerController.Post(CustomerLocationRP.Services.Models.Customer)">
              <summary>
@@ -45,6 +47,7 @@
              <response code="201">  If Customer Data is Submitted Successfully</response>
              <response code="208">  If Customer with the the same ID already Exists</response>
              <response code="400">  If Entered Customer ID is Invalid</response>
+             <response code="500">  Internal Server Error</response>
         </member>
         <member name="M:CustomerLocationRP.WebAPI.Controllers.CustomerController.Put(System.Int32,System.Int32,CustomerLocationRP.Services.Models.Address)">
              <summary>
@@ -59,6 +62,7 @@
              <response code="200">  If Customer is Found and the Data is Updated</response>
              <response code="400">  Customer Location ID Doesn't Exist</response>
              <response code="404">  If Controller or Data not Found</response>
+             <response code="500">  Internal Server Error</response>
         </member>
         <member name="M:CustomerLocationRP.WebAPI.Controllers.CustomerController.Delete(System.Int32)">
              <summary>
@@ -73,6 +77,7 @@
              <response code="204">  Customer is Deleted Successfully. No reponse Data is included as it is deleted</response>
              <response code="400">  If Customer has Existing Locations in Data</response>
              <response code="404">  If Customer not Found</response>
+             <response code="500">  Internal Server Error</response>
         </member>
     </members>
 </doc>

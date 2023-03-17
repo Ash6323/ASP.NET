@@ -9,8 +9,8 @@ namespace CustomerLocationRP.WebAPI.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly ICustomerService _customerService;
-        public CustomerController(ICustomerService customerRepository)
+        private readonly ICustomer _customerService;
+        public CustomerController(ICustomer customerRepository)
         {
             _customerService = customerRepository;
         }
@@ -28,6 +28,7 @@ namespace CustomerLocationRP.WebAPI.Controllers
         /// </remarks>
         /// <response code="200">  If Customers are Found and Response is Given</response>
         /// <response code="400">  If Anything is Missing from Client Side's Request</response>
+        /// <response code="500">  Internal Server Error</response>
         [HttpGet]
         public IActionResult Get()
         {
@@ -55,6 +56,7 @@ namespace CustomerLocationRP.WebAPI.Controllers
         /// <response code="200">  If Customer is Found and Response is Given</response>
         /// <response code="400">  If Anything is Missing from Client Side's Request</response>
         /// <response code="404">  If Customer not Found</response>
+        /// <response code="500">  Internal Server Error</response>
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -84,10 +86,11 @@ namespace CustomerLocationRP.WebAPI.Controllers
         /// <response code="201">  If Customer Data is Submitted Successfully</response>
         /// <response code="208">  If Customer with the the same ID already Exists</response>
         /// <response code="400">  If Entered Customer ID is Invalid</response>
+        /// <response code="500">  Internal Server Error</response>
         [HttpPost]
-        public IActionResult Post(Customer value)
+        public IActionResult Post(Customer customer)
         {
-            int result = _customerService.AddCustomer(value);
+            int result = _customerService.AddCustomer(customer);
             if (result.Equals(-1))
             {
                 Response response = new
@@ -116,6 +119,7 @@ namespace CustomerLocationRP.WebAPI.Controllers
         /// <response code="200">  If Customer is Found and the Data is Updated</response>
         /// <response code="400">  Customer Location ID Doesn't Exist</response>
         /// <response code="404">  If Controller or Data not Found</response>
+        /// <response code="500">  Internal Server Error</response>
         [HttpPut("{id}")]
         public IActionResult Put(int id, int locationID, Address address)
         {
@@ -153,6 +157,7 @@ namespace CustomerLocationRP.WebAPI.Controllers
         /// <response code="204">  Customer is Deleted Successfully. No reponse Data is included as it is deleted</response>
         /// <response code="400">  If Customer has Existing Locations in Data</response>
         /// <response code="404">  If Customer not Found</response>
+        /// <response code="500">  Internal Server Error</response>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
