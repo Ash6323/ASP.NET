@@ -1,5 +1,8 @@
 using System.Reflection;
 using CustomerLocationRP.Services.Interfaces;
+using CustomerLocationRP.Services.Models;
+using Microsoft.EntityFrameworkCore;
+
 namespace CustomerLocationRP.WebAPI
 {
     public class Program
@@ -18,6 +21,11 @@ namespace CustomerLocationRP.WebAPI
                 var xmlFile = $" {Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments("E:\\Work\\IncubXperts\\ASP.NET\\CustomerLocationRP.WebAPI\\bin\\Debug\\net6.0\\xml-documentation.xml");
+            });
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer(builder.Configuration.GetConnectionString("ApplicationDbContext"));
             });
 
             builder.Services.AddSingleton<ICustomer, CustomerService>();

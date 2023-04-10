@@ -19,9 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestFilters", "TestFilters\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CustomerLocationRP", "CustomerLocationRP", "{B6775D0F-15CD-472A-A1B2-12B152FE6A0A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerLocationRP.Services", "CustomerLocationRP.Services\CustomerLocationRP.Services.csproj", "{56C75ED0-5B24-4B78-AE9D-2D68B591E621}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerLocationRP.Services", "CustomerLocationRP.Services\CustomerLocationRP.Services.csproj", "{56C75ED0-5B24-4B78-AE9D-2D68B591E621}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomerLocationRP.WebAPI", "CustomerLocationRP.WebAPI\CustomerLocationRP.WebAPI.csproj", "{C9642642-DE03-4497-8854-0DE8EA813FFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerLocationRP.WebAPI", "CustomerLocationRP.WebAPI\CustomerLocationRP.WebAPI.csproj", "{C9642642-DE03-4497-8854-0DE8EA813FFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

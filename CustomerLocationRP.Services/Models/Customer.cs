@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using Microsoft.EntityFrameworkCore;
 
 namespace CustomerLocationRP.Services.Models
 {
@@ -10,5 +7,15 @@ namespace CustomerLocationRP.Services.Models
     {
         public int CustomerId { get; set; }
         public List<Address> Locations { get; set; } = new List<Address>();
+    }
+    public class ApplicationDbContext : DbContext
+    {
+        public ApplicationDbContext(DbContextOptions options) : base(options)
+        {
+        }
+
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+
     }
 }
