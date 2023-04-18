@@ -14,8 +14,8 @@ namespace CustomerLocationRP.Services.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public int CustomerId { get; set; } // Required foreign key property
-        public List<Customer> Customers { get; } = null!; // Required reference navigation to principal
+        public int CustomerId { get; set; }     // Required foreign key property
+        public List<Customer> Customers { get; } = null!;    // Required reference navigation to principal
         public List<CustomerProduct> CustomerProducts { get; } = new();
     }
     public class CustomerProduct

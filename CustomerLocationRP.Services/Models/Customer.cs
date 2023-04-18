@@ -3,6 +3,7 @@ using Azure;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection.Metadata;
+using System.Text.Json.Serialization;
 
 namespace CustomerLocationRP.Services.Models
 {
@@ -13,10 +14,14 @@ namespace CustomerLocationRP.Services.Models
         public string Name { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
-        public Spouse Spouse { get; set; }         //One-to-One
+        [JsonIgnore]
+        public Spouse? Spouse { get; set; }         //One-to-One
+        [JsonIgnore]
         public ICollection<Address> Addresses { get; set; } = new List<Address>();      //One-to-many
-        public List<Product> Products { get; set; } = new();
-        public List<CustomerProduct> CustomerProducts { get; } = new();
+        [JsonIgnore]
+        public List<Product> Products { get; set; } = new();        //Many-to-many
+        [JsonIgnore]
+        public List<CustomerProduct> CustomerProducts { get; } = new();     //Many-to-many Join-Table
     }
     public class CustomerDbContext : DbContext
     {
@@ -54,7 +59,6 @@ namespace CustomerLocationRP.Services.Models
                             l => l.HasOne<Product>(e => e.Product).WithMany(e => e.CustomerProducts),
                             r => r.HasOne<Customer>(e => e.Customer).WithMany(e => e.CustomerProducts));
         }
-
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Address> Addresses { get; set; }
     }

@@ -83,27 +83,27 @@ namespace CustomerLocationRP.WebAPI.Controllers
         ///     Post /api/Customer/
         ///
         /// </remarks>
-        /// <response code="201">  If Customer Data is Submitted Successfully</response>
+        /// <response code="200">  If Customer Data is Submitted Successfully</response>
         /// <response code="208">  If Customer with the the same ID already Exists</response>
         /// <response code="400">  If Entered Customer ID is Invalid</response>
         /// <response code="500">  Internal Server Error</response>
-        //[HttpPost]
-        //public IActionResult Post(Customer customer)
-        //{
-        //    int result = _customerService.AddCustomer(customer);
-        //    if (result.Equals(-1))
-        //    {
-        //        Response response = new
-        //            (StatusCodes.Status208AlreadyReported, ConstantMessages.customerAlreadyExists, ConstantMessages.customerAlreadyExists);
-        //        return Ok(response);
-        //    }
-        //    else
-        //    {
-        //        Response response = new
-        //        (StatusCodes.Status201Created, ConstantMessages.customerAddedSuccessfully, result);
-        //        return Ok(response);
-        //    }
-        //}
+        [HttpPost]
+        public IActionResult Post(Customer customer)
+        {
+            int result = _customerService.AddCustomer(customer);
+            if (result.Equals(-1))
+            {
+                Response response = new
+                    (StatusCodes.Status208AlreadyReported, ConstantMessages.customerAlreadyExists, ConstantMessages.customerAlreadyExists);
+                return Ok(response);
+            }
+            else
+            {
+                Response response = new
+                (StatusCodes.Status200OK, ConstantMessages.customerAddedSuccessfully, result);
+                return Ok(response);
+            }
+        }
 
         // PUT api/<CustomerController>/5
 
@@ -120,28 +120,28 @@ namespace CustomerLocationRP.WebAPI.Controllers
         /// <response code="400">  Customer Location ID Doesn't Exist</response>
         /// <response code="404">  If Controller or Data not Found</response>
         /// <response code="500">  Internal Server Error</response>
-        //[HttpPut("{id}")]
-        //public IActionResult Put(int id, int locationID, Address address)
-        //{
-        //    int result = _customerService.UpdateCustomer(id, locationID, address);
-        //    if (result.Equals(-1))
-        //    {
-        //        Response response = new
-        //            (StatusCodes.Status404NotFound, ConstantMessages.customerDoesNotExist, ConstantMessages.customerDoesNotExist);
-        //        return NotFound(response);
-        //    }
-        //    else if(result.Equals(0))
-        //    {
-        //        Response response = new
-        //            (StatusCodes.Status400BadRequest, ConstantMessages.locationIdDoesntExist, ConstantMessages.locationIdDoesntExist);
-        //        return BadRequest(response);
-        //    }
-        //    else
-        //    {
-        //        Response response = new(StatusCodes.Status200OK, ConstantMessages.dataUpdatedSuccessfully, result);
-        //        return Ok(response);
-        //    }
-        //}
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] Customer updatedCustomer)
+        {
+            int result = _customerService.UpdateCustomer(id, updatedCustomer);
+            if (result.Equals(-1))
+            {
+                Response response = new
+                    (StatusCodes.Status404NotFound, ConstantMessages.customerDoesNotExist, ConstantMessages.customerDoesNotExist);
+                return NotFound(response);
+            }
+            else if (result.Equals(0))
+            {
+                Response response = new
+                    (StatusCodes.Status400BadRequest, ConstantMessages.locationIdDoesntExist, ConstantMessages.locationIdDoesntExist);
+                return BadRequest(response);
+            }
+            else
+            {
+                Response response = new(StatusCodes.Status200OK, ConstantMessages.dataUpdatedSuccessfully, result);
+                return Ok(response);
+            }
+        }
 
         // DELETE api/<CustomerController>/5
 
@@ -154,29 +154,29 @@ namespace CustomerLocationRP.WebAPI.Controllers
         ///     Delete /api/Customer/3
         ///
         /// </remarks>
-        /// <response code="204">  Customer is Deleted Successfully. No reponse Data is included as it is deleted</response>
+        /// <response code="200">  Customer is Deleted Successfully. No reponse Data is included (Deleted Data)</response>
         /// <response code="400">  If Customer has Existing Locations in Data</response>
         /// <response code="404">  If Customer not Found</response>
         /// <response code="500">  Internal Server Error</response>
-        //[HttpDelete("{id}")]
-        //public IActionResult Delete(int id)
-        //{
-        //    int result = _customerService.DeleteCustomer(id);
-        //    if (result.Equals(-1))
-        //    {
-        //        Response response = new(StatusCodes.Status400BadRequest, ConstantMessages.dataContainsLocations, result);
-        //        return BadRequest(response);
-        //    }
-        //    else if (result.Equals(0))
-        //    {
-        //        Response response = new(StatusCodes.Status404NotFound, ConstantMessages.customerDoesNotExist, null);
-        //        return NotFound(response);
-        //    }
-        //    else
-        //    {
-        //        Response response = new(StatusCodes.Status204NoContent, ConstantMessages.dataDeletedSuccessfully, null);
-        //        return Ok(response);
-        //    }
-        //}
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            int result = _customerService.DeleteCustomer(id);
+            if (result.Equals(-1))
+            {
+                Response response = new(StatusCodes.Status400BadRequest, ConstantMessages.dataContainsLocations, result);
+                return BadRequest(response);
+            }
+            else if (result.Equals(0))
+            {
+                Response response = new(StatusCodes.Status404NotFound, ConstantMessages.customerDoesNotExist, null);
+                return NotFound(response);
+            }
+            else
+            {
+                Response response = new(StatusCodes.Status200OK, ConstantMessages.dataDeletedSuccessfully, null);
+                return Ok(response);
+            }
+        }
     }
 }
