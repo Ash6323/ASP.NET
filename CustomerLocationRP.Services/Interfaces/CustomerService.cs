@@ -1,5 +1,4 @@
-﻿
-using CustomerLocationRP.Services.Models;
+﻿using CustomerLocationRP.Services.Models;
 
 namespace CustomerLocationRP.Services.Interfaces
 {

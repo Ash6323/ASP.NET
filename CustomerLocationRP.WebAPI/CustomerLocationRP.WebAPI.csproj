@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CustomerLocationRP.Data\CustomerLocationRP.Data.csproj" />
     <ProjectReference Include="..\CustomerLocationRP.Services\CustomerLocationRP.Services.csproj" />
   </ItemGroup>
 
