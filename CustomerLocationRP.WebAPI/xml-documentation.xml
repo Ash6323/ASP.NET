@@ -34,50 +34,5 @@
              <response code="404">  If Customer not Found</response>
              <response code="500">  Internal Server Error</response>
         </member>
-        <member name="M:CustomerLocationRP.WebAPI.Controllers.CustomerController.Post(CustomerLocationRP.Services.Models.Customer)">
-             <summary>
-             Takes a Single Customer Data and Sends through API
-             </summary>
-             <remarks>
-             Sample request:
-            
-                 Post /api/Customer/
-            
-             </remarks>
-             <response code="201">  If Customer Data is Submitted Successfully</response>
-             <response code="208">  If Customer with the the same ID already Exists</response>
-             <response code="400">  If Entered Customer ID is Invalid</response>
-             <response code="500">  Internal Server Error</response>
-        </member>
-        <member name="M:CustomerLocationRP.WebAPI.Controllers.CustomerController.Put(System.Int32,System.Int32,CustomerLocationRP.Services.Models.Address)">
-             <summary>
-             Updates a Single Customer's Data by taking as Input the ID of Existing Customer
-             </summary>
-             <remarks>
-             Sample request:
-            
-                 Put /api/Customer/3
-            
-             </remarks>
-             <response code="200">  If Customer is Found and the Data is Updated</response>
-             <response code="400">  Customer Location ID Doesn't Exist</response>
-             <response code="404">  If Controller or Data not Found</response>
-             <response code="500">  Internal Server Error</response>
-        </member>
-        <member name="M:CustomerLocationRP.WebAPI.Controllers.CustomerController.Delete(System.Int32)">
-             <summary>
-             Deletes a Single Customer's Data (if Locations are Empty) by taking as Input the ID of Customer
-             </summary>
-             <remarks>
-             Sample request:
-            
-                 Delete /api/Customer/3
-            
-             </remarks>
-             <response code="204">  Customer is Deleted Successfully. No reponse Data is included as it is deleted</response>
-             <response code="400">  If Customer has Existing Locations in Data</response>
-             <response code="404">  If Customer not Found</response>
-             <response code="500">  Internal Server Error</response>
-        </member>
     </members>
 </doc>

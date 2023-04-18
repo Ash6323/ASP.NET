@@ -23,12 +23,12 @@ namespace CustomerLocationRP.WebAPI
                 c.IncludeXmlComments("E:\\Work\\IncubXperts\\ASP.NET\\CustomerLocationRP.WebAPI\\bin\\Debug\\net6.0\\xml-documentation.xml");
             });
 
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            builder.Services.AddDbContext<CustomerDbContext>(options =>
             {
-                options.UseSqlServer(builder.Configuration.GetConnectionString("ApplicationDbContext"));
+                options.UseSqlServer(builder.Configuration.GetConnectionString("CustomerDbContext"));
             });
 
-            builder.Services.AddSingleton<ICustomer, CustomerService>();
+            builder.Services.AddScoped<ICustomer, CustomerService>();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();

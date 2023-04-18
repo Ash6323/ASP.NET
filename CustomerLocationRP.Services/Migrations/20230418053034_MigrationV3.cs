@@ -5,23 +5,11 @@
 namespace CustomerLocationRP.Services.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class MigrationV3 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Customers",
-                columns: table => new
-                {
-                    CustomerId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Customers", x => x.CustomerId);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Addresses",
                 columns: table => new
@@ -31,7 +19,7 @@ namespace CustomerLocationRP.Services.Migrations
                     Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Town = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CustomerId = table.Column<int>(type: "int", nullable: true)
+                    CustomerId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -40,7 +28,8 @@ namespace CustomerLocationRP.Services.Migrations
                         name: "FK_Addresses_Customers_CustomerId",
                         column: x => x.CustomerId,
                         principalTable: "Customers",
-                        principalColumn: "CustomerId");
+                        principalColumn: "CustomerId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -54,9 +43,6 @@ namespace CustomerLocationRP.Services.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Addresses");
-
-            migrationBuilder.DropTable(
-                name: "Customers");
         }
     }
 }
