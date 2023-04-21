@@ -71,5 +71,3 @@ namespace ReactCustomerLocation.Services.Interfaces
         }
     }
 }
-
-
