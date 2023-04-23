@@ -23,7 +23,7 @@ namespace Lexicon.WebAPI.Controllers
             if (result != null)
             {
                 Response response = new 
-                    Response(StatusCodes.Status200OK, ConstantMessages.dataRetrievedSuccessfully, result);
+                    Response(StatusCodes.Status200OK, ConstantMessages.DataRetrievedSuccessfully, result);
                 return Ok(response);
             }
             return NoContent();

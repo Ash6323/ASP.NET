@@ -23,7 +23,7 @@ namespace Lexicon.WebAPI.Controllers
             if (result != null)
             {
                 Response response = new
-                    Response(StatusCodes.Status200OK, ConstantMessages.dataRetrievedSuccessfully, result);
+                    Response(StatusCodes.Status200OK, ConstantMessages.DataRetrievedSuccessfully, result);
                 return Ok(response);
             }
             return NoContent();
@@ -31,15 +31,37 @@ namespace Lexicon.WebAPI.Controllers
 
         // GET api/<AttorneyController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            AttorneyDto result = _attorneyService.GetAttorney(id);
+            if (result != null)
+            {
+                Response attorneyExistsResponse = new
+                    (StatusCodes.Status200OK, ConstantMessages.DataRetrievedSuccessfully, result);
+                return Ok(attorneyExistsResponse);
+            }
+            Response attorneyNotExistsresponse = new
+                (StatusCodes.Status404NotFound, ConstantMessages.AttorneyDoesNotExist, null);
+            return NotFound(attorneyNotExistsresponse);
         }
 
         // POST api/<AttorneyController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post(AttorneyDto attorney)
         {
+            int result = _attorneyService.AddAttorney(attorney);
+            if (result.Equals(-1))
+            {
+                Response response = new
+                    (StatusCodes.Status400BadRequest, ConstantMessages.AttorneyAlreadyExists, ConstantMessages.AttorneyAlreadyExists);
+                return BadRequest(response);
+            }
+            else
+            {
+                Response response = new
+                (StatusCodes.Status200OK, ConstantMessages.DataAddedSuccessfully, result);
+                return Ok(response);
+            }
         }
 
         // PUT api/<AttorneyController>/5

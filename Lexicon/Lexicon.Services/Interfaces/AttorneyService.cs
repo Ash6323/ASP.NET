@@ -1,15 +1,15 @@
 ﻿using Lexicon.Data.Models;
 using Lexicon.Data.Context;
 using Lexicon.Data.DTO;
+using System.Web.Http.Description;
 
 namespace Lexicon.Services.Interfaces
 {
     public interface IAttorney
     {
         List<AttorneyDto> GetAttorneys();
-        //List<Customer> GetAllCustomer();
-        //Customer GetCustomer(int id);
-        //int AddCustomer(Customer customer);
+        AttorneyDto GetAttorney(int id);
+        int AddAttorney(AttorneyDto attorney);
         //int UpdateCustomer(int id, Customer updatedCustomer);
         //int DeleteCustomer(int id);
     }
@@ -38,26 +38,53 @@ namespace Lexicon.Services.Interfaces
 
             return attorneys.ToList();
         }
+        public AttorneyDto GetAttorney(int id)
+        {
+            AttorneyDto attorney = (from a in _context.Attorneys where a.Id == id
+                                    select new AttorneyDto()
+                                    {
+                                        Id = a.Id,
+                                        Name = a.Name,
+                                        Age = a.Age,
+                                        Email = a.Email,
+                                        Phone = a.Phone,
+                                        Rate = a.Rate,
+                                        JurisdictionId = a.JurisdictionId
+                                    }).FirstOrDefault();
+                return attorney;
+        }
+        public int AddAttorney(AttorneyDto attorney)
+        {
+            AttorneyDto result = (from a in _context.Attorneys
+                                    where a.Id == attorney.Id
+                                    select new AttorneyDto()
+                                    {
+                                        Id = a.Id,
+                                        Name = a.Name,
+                                        Age = a.Age,
+                                        Email = a.Email,
+                                        Phone = a.Phone,
+                                        Rate = a.Rate,
+                                        JurisdictionId = a.JurisdictionId
+                                    }).FirstOrDefault();
 
-        //public List<Customer> GetAllCustomer()
-        //{
-        //    return _context.Customers.ToList();
-        //}
-        //public Customer GetCustomer(int id)
-        //{
-        //    return _context.Customers.FirstOrDefault(c => c.Id == id);
-        //}
-        //public int AddCustomer(Customer customer)
-        //{
-        //    Customer result = _context.Customers.FirstOrDefault(c => c.Id == customer.Id);
-        //    if (result == null)
-        //    {
-        //        _context.Customers.Add(customer);
-        //        _context.SaveChanges();
-        //        return customer.Id;
-        //    }
-        //    return -1;
-        //}
+            if (result == null)
+            {
+                Attorney newAttorney = new Attorney();
+                {
+                    newAttorney.Name = attorney.Name;
+                    newAttorney.Age = attorney.Age;
+                    newAttorney.Email = attorney.Email;
+                    newAttorney.Phone = attorney.Phone;
+                    newAttorney.Rate = attorney.Rate;
+                    newAttorney.JurisdictionId = attorney.JurisdictionId;
+                };
+                _context.Attorneys.Add(newAttorney);
+                _context.SaveChanges();
+                return newAttorney.Id;
+            }
+            return -1;
+        }
         //public int UpdateCustomer(int id, Customer updatedCustomer)
         //{
         //    Customer customer = _context.Customers.FirstOrDefault(c => c.Id == id);
