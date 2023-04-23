@@ -27,15 +27,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerLocationRP.Data", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReactCustomerLocation", "ReactCustomerLocation", "{7825F85D-0E9A-4021-9F77-A45ABA8F5C43}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactCustomerLocation.WebAPI", "ReactCustomerLocation.WebAPI\ReactCustomerLocation.WebAPI.csproj", "{3CE1C924-156E-4F98-87CD-5A66CAC33C31}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactCustomerLocation.WebAPI", "ReactCustomerLocation.WebAPI\ReactCustomerLocation.WebAPI.csproj", "{3CE1C924-156E-4F98-87CD-5A66CAC33C31}"
 	ProjectSection(ProjectDependencies) = postProject
 		{282DE5C4-990A-497D-B82C-A6850F147728} = {282DE5C4-990A-497D-B82C-A6850F147728}
 		{9E0945C9-4D0A-4A83-9094-A31DA6749FD5} = {9E0945C9-4D0A-4A83-9094-A31DA6749FD5}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactCustomerLocation.Data", "ReactCustomerLocation.Data\ReactCustomerLocation.Data.csproj", "{9E0945C9-4D0A-4A83-9094-A31DA6749FD5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactCustomerLocation.Data", "ReactCustomerLocation.Data\ReactCustomerLocation.Data.csproj", "{9E0945C9-4D0A-4A83-9094-A31DA6749FD5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactCustomerLocation.Services", "ReactCustomerLocation.Services\ReactCustomerLocation.Services.csproj", "{282DE5C4-990A-497D-B82C-A6850F147728}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactCustomerLocation.Services", "ReactCustomerLocation.Services\ReactCustomerLocation.Services.csproj", "{282DE5C4-990A-497D-B82C-A6850F147728}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lexicon", "Lexicon", "{C76385EE-8E5C-46C8-A86A-7A25A7E63EBA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicon.Data", "Lexicon\Lexicon.Data\Lexicon.Data.csproj", "{2BF85E08-9DD5-452C-BFE7-F5C3860D20CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -95,6 +99,10 @@ Global
 		{282DE5C4-990A-497D-B82C-A6850F147728}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{282DE5C4-990A-497D-B82C-A6850F147728}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{282DE5C4-990A-497D-B82C-A6850F147728}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BF85E08-9DD5-452C-BFE7-F5C3860D20CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BF85E08-9DD5-452C-BFE7-F5C3860D20CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BF85E08-9DD5-452C-BFE7-F5C3860D20CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BF85E08-9DD5-452C-BFE7-F5C3860D20CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -106,6 +114,7 @@ Global
 		{3CE1C924-156E-4F98-87CD-5A66CAC33C31} = {7825F85D-0E9A-4021-9F77-A45ABA8F5C43}
 		{9E0945C9-4D0A-4A83-9094-A31DA6749FD5} = {7825F85D-0E9A-4021-9F77-A45ABA8F5C43}
 		{282DE5C4-990A-497D-B82C-A6850F147728} = {7825F85D-0E9A-4021-9F77-A45ABA8F5C43}
+		{2BF85E08-9DD5-452C-BFE7-F5C3860D20CC} = {C76385EE-8E5C-46C8-A86A-7A25A7E63EBA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6B625223-5B2D-488C-9F33-04C6D5D8B9FC}
