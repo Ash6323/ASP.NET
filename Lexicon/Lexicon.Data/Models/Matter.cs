@@ -17,9 +17,10 @@ namespace Lexicon.Data.Models
         public Client Client { get; set; }
         [Required]
         public int BillingAttorneyId { get; set; }
+        public Attorney BillingAttorney { get; set; }
         [Required]
         public int ResponsibleAttorneyId { get; set; }
-        public Attorney Attorney { get; set; }
+        public Attorney ResponsibleAttorney { get; set; }
         public ICollection<Invoice> Invoices { get; set; }
 
     }

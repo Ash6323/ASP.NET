@@ -12,7 +12,8 @@ namespace Lexicon.Data.Models
         public int Rate { get; set; }
         public int JurisdictionId { get; set; }
         public Jurisdiction Jurisdiction { get; set; } = null!;
-        public ICollection<Matter> Matters { get; set; }
+        public ICollection<Matter> BillingAttorneyMatters { get; set; }
+        public ICollection<Matter> ResponsibleAttorneyMatters { get; set; }
         public ICollection<Invoice> Invoices { get; set; }
     }
 }
