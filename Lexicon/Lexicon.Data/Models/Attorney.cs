@@ -11,6 +11,8 @@ namespace Lexicon.Data.Models
         public string Email { get; set; }
         public string Phone { get; set; }
         public int Rate { get; set; }
-        
+        public int JurisdictionId { get; set; }
+        public Jurisdiction Jurisdiction { get; set; } = null!;
+
     }
 }
