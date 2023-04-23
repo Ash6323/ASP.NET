@@ -7,7 +7,8 @@ namespace Lexicon.Data.Models
     {
         [Key]
         public int Id { get; set; }
-        public string Area { get; set; }
+        public string Area { get; set; } = null!;
         public ICollection<Attorney> Attorneys { get; set; }
+        public ICollection<Matter> Matters { get; set; }
     }
 }
