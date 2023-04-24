@@ -10,8 +10,8 @@ namespace Lexicon.Services.Interfaces
         List<AttorneyDto> GetAttorneys();
         AttorneyDto GetAttorney(int id);
         int AddAttorney(AttorneyDto attorney);
-        //int UpdateCustomer(int id, Customer updatedCustomer);
-        //int DeleteCustomer(int id);
+        int UpdateAttorney(int id, AttorneyDto updatedAttorney);
+        int DeleteAttorney(int id);
     }
 
     public class AttorneyService : IAttorney
@@ -85,35 +85,45 @@ namespace Lexicon.Services.Interfaces
             }
             return -1;
         }
-        //public int UpdateCustomer(int id, Customer updatedCustomer)
-        //{
-        //    Customer customer = _context.Customers.FirstOrDefault(c => c.Id == id);
-        //    if (customer != null)
-        //    {
-        //        customer.Name = updatedCustomer.Name;
-        //        customer.Email = updatedCustomer.Email;
-        //        customer.Phone = updatedCustomer.Phone;
-        //        customer.Street = updatedCustomer.Street;
-        //        customer.Town = updatedCustomer.Town;
-        //        customer.City = updatedCustomer.City;
-        //        customer.zipcode = updatedCustomer.zipcode;
-        //        _context.SaveChanges();
-        //        return customer.Id;
-        //    }
-        //    return -1;
-        //}
-        //public int DeleteCustomer(int id)
-        //{
-        //    Customer customer = _context.Customers.FirstOrDefault(c => c.Id == id);
-        //    if ( string.IsNullOrEmpty(customer.Street) && string.IsNullOrEmpty(customer.Town)  && 
-        //         string.IsNullOrEmpty(customer.City) && string.IsNullOrEmpty(customer.zipcode))
-        //    {
-        //        _context.Customers.Remove(customer);
-        //        _context.SaveChanges();
-        //        return customer.Id;
-        //    }
-        //    else
-        //        return 0;
-        //}
+        public int UpdateAttorney(int id, AttorneyDto updatedAttorney)
+        {
+            AttorneyDto attorney = (from a in _context.Attorneys
+                                  where a.Id == id
+                                  select new AttorneyDto()
+                                  {
+                                      Id = a.Id,
+                                      Name = a.Name,
+                                      Age = a.Age,
+                                      Email = a.Email,
+                                      Phone = a.Phone,
+                                      Rate = a.Rate,
+                                      JurisdictionId = a.JurisdictionId
+                                  }).FirstOrDefault();
+            if (attorney != null)
+            {
+                attorney.Name = updatedAttorney.Name;
+                attorney.Age = updatedAttorney.Age;
+                attorney.Email = updatedAttorney.Email;
+                attorney.Phone = updatedAttorney.Phone;
+                attorney.Rate = updatedAttorney.Rate;
+                attorney.JurisdictionId = updatedAttorney.JurisdictionId;
+                _context.SaveChanges();
+                return attorney.Id;
+            }
+            else
+                return 0;
+        }
+        public int DeleteAttorney(int id)
+        {
+            Attorney attorney = _context.Attorneys.FirstOrDefault(a => a.Id == id);
+            if(attorney != null)
+            {
+                _context.Attorneys.Remove(attorney);
+                _context.SaveChanges();
+                return attorney.Id;
+            }
+            else
+                return 0;
+        }
     }
 }
