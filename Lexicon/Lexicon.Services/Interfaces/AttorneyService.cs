@@ -1,7 +1,6 @@
 ﻿using Lexicon.Data.Models;
 using Lexicon.Data.Context;
 using Lexicon.Data.DTO;
-using System.Web.Http.Description;
 
 namespace Lexicon.Services.Interfaces
 {
@@ -35,7 +34,6 @@ namespace Lexicon.Services.Interfaces
                                     Rate = a.Rate,
                                     JurisdictionId = a.JurisdictionId
                                 };
-
             return attorneys.ToList();
         }
         public AttorneyDto GetAttorney(int id)
@@ -55,21 +53,6 @@ namespace Lexicon.Services.Interfaces
         }
         public int AddAttorney(AttorneyDto attorney)
         {
-            AttorneyDto result = (from a in _context.Attorneys
-                                    where a.Id == attorney.Id
-                                    select new AttorneyDto()
-                                    {
-                                        Id = a.Id,
-                                        Name = a.Name,
-                                        Age = a.Age,
-                                        Email = a.Email,
-                                        Phone = a.Phone,
-                                        Rate = a.Rate,
-                                        JurisdictionId = a.JurisdictionId
-                                    }).FirstOrDefault();
-
-            if (result == null)
-            {
                 Attorney newAttorney = new Attorney();
                 {
                     newAttorney.Name = attorney.Name;
@@ -82,9 +65,6 @@ namespace Lexicon.Services.Interfaces
                 _context.Attorneys.Add(newAttorney);
                 _context.SaveChanges();
                 return newAttorney.Id;
-            }
-            else
-                return 0;
         }
         public int UpdateAttorney(int id, AttorneyDto updatedAttorney)
         {

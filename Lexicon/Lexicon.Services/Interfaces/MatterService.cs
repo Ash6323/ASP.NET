@@ -23,19 +23,19 @@ namespace Lexicon.Services.Interfaces
         }
         public List<MatterDto> GetMatters()
         {
-            IQueryable<MatterDto> matters = from m in _context.Matters
-                                            select new MatterDto()
-                                            {
-                                                Id = m.Id,
-                                                Title = m.Title,
-                                                IsActive = m.IsActive,
-                                                JurisdictionId = m.JurisdictionId,
-                                                ClientId = m.ClientId,
-                                                BillingAttorneyId = m.BillingAttorneyId,
-                                                ResponsibleAttorneyId = m.ResponsibleAttorneyId
-                                            };
+            List<MatterDto> matters = (from m in _context.Matters
+                                        select new MatterDto()
+                                        {
+                                            Id = m.Id,
+                                            Title = m.Title,
+                                            IsActive = m.IsActive,
+                                            JurisdictionId = m.JurisdictionId,
+                                            ClientId = m.ClientId,
+                                            BillingAttorneyId = m.BillingAttorneyId,
+                                            ResponsibleAttorneyId = m.ResponsibleAttorneyId
+                                        }).ToList();
 
-            return matters.ToList();
+            return matters;
         }
         public MatterDto GetMatter(int id)
         {
@@ -86,20 +86,6 @@ namespace Lexicon.Services.Interfaces
         }
         public int AddMatter(MatterDto matter)
         {
-            MatterDto result = (from m in _context.Matters
-                                where m.Id == matter.Id
-                                select new MatterDto()
-                                {
-                                    Id = m.Id,
-                                    Title = m.Title,
-                                    IsActive = m.IsActive,
-                                    JurisdictionId = m.JurisdictionId,
-                                    ClientId = m.ClientId,
-                                    BillingAttorneyId = m.BillingAttorneyId,
-                                    ResponsibleAttorneyId = m.ResponsibleAttorneyId
-                                }).FirstOrDefault();
-            if(result == null) 
-            {
                 Attorney attorney = _context.Attorneys.FirstOrDefault(a => a.Id == matter.BillingAttorneyId);
 
                 if (attorney!.JurisdictionId != matter.JurisdictionId)
@@ -118,10 +104,7 @@ namespace Lexicon.Services.Interfaces
                 }
                 _context.Matters.Add(newMatter);
                 _context.SaveChanges();
-                return newMatter    .Id;
-            }
-            else
-                return 0;
+                return newMatter.Id;
         }
         public int UpdateMatter(int id, MatterDto updatedMatter)
         {

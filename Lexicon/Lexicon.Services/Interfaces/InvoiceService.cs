@@ -10,7 +10,6 @@ namespace Lexicon.Services.Interfaces
         InvoiceDto GetInvoice(int id);
         IEnumerable<IGrouping<int, InvoiceDto>> GetInvoicesByMatters();
         List<InvoiceDto> GetInvoicesByMatter(int matterId);
-        //float GetBillingByAttorneys();
         double GetBillingByAttorney(int attorneyId);
         int AddInvoice(InvoiceDto invoice);
         //int UpdateInvoice(int id, InvoiceDto updatedInvoice);
@@ -25,7 +24,7 @@ namespace Lexicon.Services.Interfaces
         }
         public List<InvoiceDto> GetInvoices()
         {
-            IQueryable<InvoiceDto> invoices = from i in _context.Invoices
+            List<InvoiceDto> invoices = (from i in _context.Invoices
                                             select new InvoiceDto()
                                             {
                                                 Id = i.Id,
@@ -34,9 +33,8 @@ namespace Lexicon.Services.Interfaces
                                                 TotalAmount = i.TotalAmount,
                                                 MatterId = i.MatterId,
                                                 AttorneyId = i.AttorneyId
-                                            };
-
-            return invoices.ToList();
+                                            }).ToList();
+            return invoices;
         }
         public InvoiceDto GetInvoice(int id)
         {
