@@ -50,18 +50,10 @@ namespace Lexicon.WebAPI.Controllers
         public IActionResult Post(AttorneyDto attorney)
         {
             int result = _attorneyService.AddAttorney(attorney);
-            if (result.Equals(0))
-            {
-                Response response = new
-                    (StatusCodes.Status400BadRequest, ConstantMessages.AttorneyAlreadyExists, ConstantMessages.AttorneyAlreadyExists);
-                return BadRequest(response);
-            }
-            else
-            {
-                Response response = new
-                (StatusCodes.Status200OK, ConstantMessages.DataAddedSuccessfully, result);
-                return Ok(response);
-            }
+
+            Response response = new
+            (StatusCodes.Status200OK, ConstantMessages.DataAddedSuccessfully, result);
+            return Ok(response);
         }
 
         // PUT api/<AttorneyController>/5

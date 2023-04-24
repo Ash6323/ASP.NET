@@ -50,19 +50,10 @@ namespace Lexicon.WebAPI.Controllers
         public IActionResult Post(ClientDto client)
         {
             int result = _clientService.AddClient(client);
-            if (result.Equals(0))
-            {
-                Response response = new
-                    (StatusCodes.Status400BadRequest, ConstantMessages.ClientAlreadyExists, 
-                                                        ConstantMessages.ClientAlreadyExists);
-                return BadRequest(response);
-            }
-            else
-            {
-                Response response = new
-                (StatusCodes.Status200OK, ConstantMessages.DataAddedSuccessfully, result);
-                return Ok(response);
-            }
+
+            Response response = new
+            (StatusCodes.Status200OK, ConstantMessages.DataAddedSuccessfully, result);
+            return Ok(response);
         }
 
         // PUT api/<ClientController>/5
