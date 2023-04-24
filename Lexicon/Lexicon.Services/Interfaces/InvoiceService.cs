@@ -1,5 +1,4 @@
-﻿
-using Lexicon.Data.Context;
+﻿using Lexicon.Data.Context;
 using Lexicon.Data.DTO;
 using Lexicon.Data.Models;
 

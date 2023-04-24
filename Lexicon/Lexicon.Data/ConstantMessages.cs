@@ -1,5 +1,4 @@
-﻿
-namespace Lexicon.Data
+﻿namespace Lexicon.Data
 {
     public static class ConstantMessages
     {

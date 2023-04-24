@@ -1,9 +1,6 @@
-﻿
-using Lexicon.Data.Context;
+﻿using Lexicon.Data.Context;
 using Lexicon.Data.DTO;
 using Lexicon.Data.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.Metrics;
 
 namespace Lexicon.Services.Interfaces
 {
@@ -11,7 +8,7 @@ namespace Lexicon.Services.Interfaces
     {
         List<MatterDto> GetMatters();
         MatterDto GetMatter(int id);
-        List<MatterDto> GetMattersByClients();
+        IEnumerable<IGrouping<int, MatterDto>> GetMattersByClients();
         List<MatterDto> GetMattersByClient(int clientId);
         int AddMatter(MatterDto matter);
         int UpdateMatter(int id, MatterDto updatedmatter);
@@ -55,10 +52,10 @@ namespace Lexicon.Services.Interfaces
                                             }).FirstOrDefault();
             return matter;
         }
-        public List<MatterDto> GetMattersByClients()
+        public IEnumerable<IGrouping<int, MatterDto>> GetMattersByClients()
         {
-            List<MatterDto> matters = (from m in _context.Matters
-                                       group m by m.ClientId into mg
+            IEnumerable<IGrouping<int, MatterDto>> matters = (from m in _context.Matters
+                                       //group m by m.ClientId into g
                                        select new MatterDto()
                                        {
                                            Id = m.Id,
@@ -68,8 +65,7 @@ namespace Lexicon.Services.Interfaces
                                            ClientId = m.ClientId,
                                            BillingAttorneyId = m.BillingAttorneyId,
                                            ResponsibleAttorneyId = m.ResponsibleAttorneyId
-                                       }
-                                       ).ToList();
+                                       }).GroupBy(m => m.ClientId).ToList();
 
             return matters;
         }
@@ -122,7 +118,7 @@ namespace Lexicon.Services.Interfaces
                 }
                 _context.Matters.Add(newMatter);
                 _context.SaveChanges();
-                return newMatter.Id;
+                return newMatter    .Id;
             }
             else
                 return 0;

@@ -1,5 +1,4 @@
-﻿
-using Lexicon.Data.Context;
+﻿using Lexicon.Data.Context;
 using Lexicon.Data.DTO;
 using Lexicon.Data.Models;
 
@@ -22,18 +21,17 @@ namespace Lexicon.Services.Interfaces
         }
         public List<ClientDto> GetClients()
         {
-            IQueryable<ClientDto> clients = from c in _context.Clients
-                                            select new ClientDto()
-                                            {
-                                                Id = c.Id,
-                                                Name = c.Name,
-                                                Age = c.Age,
-                                                Gender = c.Gender,
-                                                Email = c.Email,
-                                                Phone = c.Phone
-                                            };
-
-            return clients.ToList();
+            List<ClientDto> clients = (from c in _context.Clients
+                                        select new ClientDto()
+                                        {
+                                            Id = c.Id,
+                                            Name = c.Name,
+                                            Age = c.Age,
+                                            Gender = c.Gender,
+                                            Email = c.Email,
+                                            Phone = c.Phone
+                                        }).ToList();
+            return clients;
         }
         public ClientDto GetClient(int id)
         {
@@ -51,19 +49,6 @@ namespace Lexicon.Services.Interfaces
         }
         public int AddClient(ClientDto client)
         {
-            ClientDto result = (from c in _context.Clients
-                                where c.Id == client.Id
-                                select new ClientDto()
-                                {
-                                    Id = c.Id,
-                                    Name = c.Name,
-                                    Age = c.Age,
-                                    Gender = c.Gender,
-                                    Email = c.Email,
-                                    Phone = c.Phone
-                                }).FirstOrDefault();
-            if(result == null) 
-            {
                 Client newClient = new Client();
                 {
                     newClient.Name = client.Name;
@@ -75,9 +60,6 @@ namespace Lexicon.Services.Interfaces
                 _context.Clients.Add(newClient);
                 _context.SaveChanges();
                 return newClient.Id;
-            }
-            else
-                return 0;
         }
         public int UpdateClient(int id, ClientDto updatedClient)
         {
