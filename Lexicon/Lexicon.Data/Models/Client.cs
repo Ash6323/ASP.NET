@@ -1,11 +1,12 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Lexicon.Data.Models
 {
     public class Client
     {
-        [Key]
+        [Key][JsonIgnore]
         public int Id { get; set; }
         public string Name { get; set; } = null!;
         [Required]

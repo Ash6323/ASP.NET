@@ -15,7 +15,7 @@ namespace Lexicon.WebAPI.Controllers
         {
             _clientService = clientRepository;
         }
-        // GET: api/<MatterController>
+        // GET: api/<ClientController>
         [HttpGet]
         public IActionResult Get()
         {
@@ -29,7 +29,7 @@ namespace Lexicon.WebAPI.Controllers
             return NoContent();
         }
 
-        // GET api/<MatterController>/5
+        // GET api/<ClientController>/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -45,7 +45,7 @@ namespace Lexicon.WebAPI.Controllers
             return NotFound(clientNotExistsResponse);
         }
 
-        // POST api/<MatterController>
+        // POST api/<ClientController>
         [HttpPost]
         public IActionResult Post(ClientDto client)
         {
@@ -65,7 +65,7 @@ namespace Lexicon.WebAPI.Controllers
             }
         }
 
-        // PUT api/<MatterController>/5
+        // PUT api/<ClientController>/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] ClientDto updatedClient)
         {
@@ -84,7 +84,7 @@ namespace Lexicon.WebAPI.Controllers
             }
         }
 
-        // DELETE api/<MatterController>/5
+        // DELETE api/<ClientController>/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

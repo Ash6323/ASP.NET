@@ -2,8 +2,6 @@
 using Lexicon.Data.Context;
 using Lexicon.Data.DTO;
 using Lexicon.Data.Models;
-using System.Diagnostics.Metrics;
-using System.Net;
 
 namespace Lexicon.Services.Interfaces
 {
@@ -25,15 +23,15 @@ namespace Lexicon.Services.Interfaces
         public List<ClientDto> GetClients()
         {
             IQueryable<ClientDto> clients = from c in _context.Clients
-                                                select new ClientDto()
-                                                {
-                                                    Id = c.Id,
-                                                    Name = c.Name,
-                                                    Age = c.Age,
-                                                    Gender = c.Gender,
-                                                    Email = c.Email,
-                                                    Phone = c.Phone
-                                                };
+                                            select new ClientDto()
+                                            {
+                                                Id = c.Id,
+                                                Name = c.Name,
+                                                Age = c.Age,
+                                                Gender = c.Gender,
+                                                Email = c.Email,
+                                                Phone = c.Phone
+                                            };
 
             return clients.ToList();
         }

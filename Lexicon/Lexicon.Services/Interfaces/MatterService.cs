@@ -11,7 +11,7 @@ namespace Lexicon.Services.Interfaces
     {
         List<MatterDto> GetMatters();
         MatterDto GetMatter(int id);
-        IEnumerable<IGrouping<int, MatterDto>> GetMattersByClients();
+        List<MatterDto> GetMattersByClients();
         List<MatterDto> GetMattersByClient(int clientId);
         int AddMatter(MatterDto matter);
         int UpdateMatter(int id, MatterDto updatedmatter);
@@ -55,10 +55,10 @@ namespace Lexicon.Services.Interfaces
                                             }).FirstOrDefault();
             return matter;
         }
-        public IEnumerable<IGrouping<int, MatterDto>> GetMattersByClients()
+        public List<MatterDto> GetMattersByClients()
         {
-            IEnumerable<IGrouping<int, MatterDto>> matters = (from m in _context.Matters
-                                       //group m by m.ClientId into g
+            List<MatterDto> matters = (from m in _context.Matters
+                                       group m by m.ClientId into mg
                                        select new MatterDto()
                                        {
                                            Id = m.Id,
@@ -68,7 +68,8 @@ namespace Lexicon.Services.Interfaces
                                            ClientId = m.ClientId,
                                            BillingAttorneyId = m.BillingAttorneyId,
                                            ResponsibleAttorneyId = m.ResponsibleAttorneyId
-                                       }).GroupBy(m => m.ClientId).ToList();
+                                       }
+                                       ).ToList();
 
             return matters;
         }

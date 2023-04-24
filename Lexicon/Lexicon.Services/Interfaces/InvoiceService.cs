@@ -2,8 +2,6 @@
 using Lexicon.Data.Context;
 using Lexicon.Data.DTO;
 using Lexicon.Data.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.Metrics;
 
 namespace Lexicon.Services.Interfaces
 {
@@ -13,6 +11,8 @@ namespace Lexicon.Services.Interfaces
         InvoiceDto GetInvoice(int id);
         IEnumerable<IGrouping<int, InvoiceDto>> GetInvoicesByMatters();
         List<InvoiceDto> GetInvoicesByMatter(int matterId);
+        //float GetBillingByAttorneys();
+        double GetBillingByAttorney(int attorneyId);
         int AddInvoice(InvoiceDto invoice);
         //int UpdateInvoice(int id, InvoiceDto updatedInvoice);
         //int DeleteInvoice(int id);
@@ -83,38 +83,53 @@ namespace Lexicon.Services.Interfaces
                                          }).ToList();
             return invoices;
         }
+        //public float GetBillingByAttorney()
+        //{
+
+        //}
+        public double GetBillingByAttorney(int attorneyId)
+        {
+            DateTime date= DateTime.Now;
+            DayOfWeek sunday = DayOfWeek.Sunday;
+            DateTime lastWeekStartDate = DateTime.Now;
+            DateTime lastWeekEndDate = DateTime.Now;
+            for (int i=7; i>=0; i--)
+            {
+                if(date.DayOfWeek == sunday)
+                {
+                    lastWeekEndDate = date;
+                    break;
+                }
+                else
+                {
+                    date.AddDays(-1);
+                }
+            }
+            lastWeekStartDate = lastWeekEndDate.AddDays(-7);
+
+            double billing = Convert.ToDouble(_context.Invoices
+                                    .Where(i => i.AttorneyId == attorneyId && 
+                                            i.Date.Date >= lastWeekStartDate.Date &&
+                                            i.Date.Date <= lastWeekEndDate.Date)
+                                    .Sum(im => im.TotalAmount));
+
+            return billing;
+        }
         public int AddInvoice(InvoiceDto invoice)
         {
-            InvoiceDto result = (from i in _context.Invoices
-                                where i.Id == invoice.Id
-                                select new InvoiceDto()
-                                {
-                                    Id = i.Id,
-                                    Date = i.Date,
-                                    HoursWorked = i.HoursWorked,
-                                    TotalAmount = i.TotalAmount,
-                                    MatterId = i.MatterId,
-                                    AttorneyId = i.AttorneyId
-                                }).FirstOrDefault();
-            if(result == null) 
-            {
-                int attorneyRate = _context.Attorneys.Where(a => a.Id == invoice.AttorneyId).Select(a => a.Rate).First();
-                //int rate = Convert.ToInt32(attorneyRate);
+            int attorneyRate = _context.Attorneys.Where(a => a.Id == invoice.AttorneyId).Select(a => a.Rate).First();
 
-                Invoice newInvoice = new Invoice();
-                {
-                    newInvoice.Date = invoice.Date;
-                    newInvoice.HoursWorked = invoice.HoursWorked;
-                    newInvoice.TotalAmount = invoice.HoursWorked * attorneyRate;
-                    newInvoice.MatterId = invoice.MatterId;
-                    newInvoice.AttorneyId = invoice.AttorneyId;
-                }
-                _context.Invoices.Add(newInvoice);
-                _context.SaveChanges();
-                return newInvoice.Id;
+            Invoice newInvoice = new Invoice();
+            {
+                newInvoice.Date = invoice.Date;
+                newInvoice.HoursWorked = invoice.HoursWorked;
+                newInvoice.TotalAmount = invoice.HoursWorked * attorneyRate;
+                newInvoice.MatterId = invoice.MatterId;
+                newInvoice.AttorneyId = invoice.AttorneyId;
             }
-            else
-                return 0;
+            _context.Invoices.Add(newInvoice);
+            _context.SaveChanges();
+            return newInvoice.Id;
         }
         public int UpdateMatter(int id, MatterDto updatedMatter)
         {

@@ -20,8 +20,8 @@ namespace Lexicon.Data
         public static string InvoicesByMattersNotFound = "Matters don't have any previous Invoices";
         public static string InvoicesByMatterNotFound = "This Matter doesn't have any previous Invoices";
         public static string InvoiceAlreadyExists = "Invoice with the same ID already Exists";
+        public static string BillingFetched = "Last Week's Billing Amount Retrieval Successful";
 
-        public static string LocationIdDoesntExist = "Customer's Location ID is Invalid";
         public static string DataContainsLocations = "Unsuccessful Data Deletion- Customer Record Contains Locations.Remove Locations First";
     }
 }

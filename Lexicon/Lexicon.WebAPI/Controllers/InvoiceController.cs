@@ -15,7 +15,7 @@ namespace Lexicon.WebAPI.Controllers
         {
             _invoiceService = invoiceRepository;
         }
-        // GET: api/<MatterController>
+        // GET: api/<InvoiceController>
         [HttpGet]
         public IActionResult Get()
         {
@@ -29,7 +29,7 @@ namespace Lexicon.WebAPI.Controllers
             return NoContent();
         }
 
-        // GET api/<MatterController>/5
+        // GET api/<InvoiceController>/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
@@ -78,8 +78,17 @@ namespace Lexicon.WebAPI.Controllers
                 return Ok(invoicesByMatterExistsResponse);
             }
         }
+        [HttpGet("GetBillingByAttorney/{id}")]
+        public IActionResult GetBillingByAttorney(int id)
+        {
+            double result = _invoiceService.GetBillingByAttorney(id);
 
-        // POST api/<MatterController>
+            Response response = new
+            (StatusCodes.Status200OK, ConstantMessages.BillingFetched, result);
+            return Ok(response);
+        }
+
+        // POST api/<InvoiceController>
         [HttpPost]
         public IActionResult Post(InvoiceDto invoice)
         {
@@ -99,7 +108,7 @@ namespace Lexicon.WebAPI.Controllers
             }
         }
 
-        // PUT api/<MatterController>/5
+        // PUT api/<InvoiceController>/5
         //[HttpPut("{id}")]
         //public IActionResult Put(int id, [FromBody] MatterDto updatedMatter)
         //{
@@ -118,7 +127,7 @@ namespace Lexicon.WebAPI.Controllers
         //    }
         //}
 
-        // DELETE api/<MatterController>/5
+        // DELETE api/<InvoiceController>/5
         //[HttpDelete("{id}")]
         //public IActionResult Delete(int id)
         //{

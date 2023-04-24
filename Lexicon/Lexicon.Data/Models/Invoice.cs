@@ -1,10 +1,12 @@
 ﻿
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Lexicon.Data.Models
 {
     public class Invoice
     {
+        [Key][JsonIgnore]
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public int HoursWorked { get; set; }

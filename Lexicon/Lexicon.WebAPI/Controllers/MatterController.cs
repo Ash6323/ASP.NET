@@ -89,14 +89,14 @@ namespace Lexicon.WebAPI.Controllers
             {
                 Response response = new
                     (StatusCodes.Status400BadRequest, ConstantMessages.MatterAlreadyExists, 
-                                                        ConstantMessages.MatterAlreadyExists);
+                                                      ConstantMessages.MatterAlreadyExists);
                 return BadRequest(response);
             }
             else if(result.Equals(-1))
             {
                 Response response = new
                     (StatusCodes.Status400BadRequest, ConstantMessages.NoMatchingJurisdiction,
-                                                        ConstantMessages.NoMatchingJurisdiction);
+                                                      ConstantMessages.NoMatchingJurisdiction);
                 return BadRequest(response);
             }
             else
