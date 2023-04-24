@@ -8,18 +8,18 @@ namespace Lexicon.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AttorneyController : ControllerBase
+    public class ClientController : ControllerBase
     {
-        private readonly IAttorney _attorneyService;
-        public AttorneyController(IAttorney attorneyRepository)
+        private readonly IClient _clientService;
+        public ClientController(IClient clientRepository)
         {
-            _attorneyService = attorneyRepository;
+            _clientService = clientRepository;
         }
-        // GET: api/<AttorneyController>
+        // GET: api/<MatterController>
         [HttpGet]
         public IActionResult Get()
         {
-            List<AttorneyDto> result = _attorneyService.GetAttorneys();
+            List<ClientDto> result = _clientService.GetClients();
             if (result != null)
             {
                 Response response = new
@@ -29,31 +29,32 @@ namespace Lexicon.WebAPI.Controllers
             return NoContent();
         }
 
-        // GET api/<AttorneyController>/5
+        // GET api/<MatterController>/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            AttorneyDto result = _attorneyService.GetAttorney(id);
+            ClientDto result = _clientService.GetClient(id);
             if (result != null)
             {
-                Response attorneyExistsResponse = new
+                Response clientExistsResponse = new
                     (StatusCodes.Status200OK, ConstantMessages.DataRetrievedSuccessfully, result);
-                return Ok(attorneyExistsResponse);
+                return Ok(clientExistsResponse);
             }
-            Response attorneyNotExistsresponse = new
-                (StatusCodes.Status404NotFound, ConstantMessages.AttorneyDoesNotExist, null);
-            return NotFound(attorneyNotExistsresponse);
+            Response clientNotExistsResponse = new
+                (StatusCodes.Status404NotFound, ConstantMessages.ClientDoesNotExist, null);
+            return NotFound(clientNotExistsResponse);
         }
 
-        // POST api/<AttorneyController>
+        // POST api/<MatterController>
         [HttpPost]
-        public IActionResult Post(AttorneyDto attorney)
+        public IActionResult Post(ClientDto client)
         {
-            int result = _attorneyService.AddAttorney(attorney);
+            int result = _clientService.AddClient(client);
             if (result.Equals(0))
             {
                 Response response = new
-                    (StatusCodes.Status400BadRequest, ConstantMessages.AttorneyAlreadyExists, ConstantMessages.AttorneyAlreadyExists);
+                    (StatusCodes.Status400BadRequest, ConstantMessages.ClientAlreadyExists, 
+                                                        ConstantMessages.ClientAlreadyExists);
                 return BadRequest(response);
             }
             else
@@ -64,16 +65,16 @@ namespace Lexicon.WebAPI.Controllers
             }
         }
 
-        // PUT api/<AttorneyController>/5
+        // PUT api/<MatterController>/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] AttorneyDto updatedAttorney)
+        public IActionResult Put(int id, [FromBody] ClientDto updatedClient)
         {
-            int result = _attorneyService.UpdateAttorney(id, updatedAttorney);
+            int result = _clientService.UpdateClient(id, updatedClient);
             if (result.Equals(0))
             {
                 Response response = new
-                    (StatusCodes.Status404NotFound, ConstantMessages.AttorneyDoesNotExist, 
-                                                    ConstantMessages.AttorneyDoesNotExist);
+                    (StatusCodes.Status404NotFound, ConstantMessages.ClientDoesNotExist,
+                                                    ConstantMessages.ClientDoesNotExist);
                 return NotFound(response);
             }
             else
@@ -83,15 +84,15 @@ namespace Lexicon.WebAPI.Controllers
             }
         }
 
-        // DELETE api/<AttorneyController>/5
+        // DELETE api/<MatterController>/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            int result = _attorneyService.DeleteAttorney(id);
+            int result = _clientService.DeleteClient(id);
             if (result.Equals(0))
             {
                 Response response =
-                    new(StatusCodes.Status400BadRequest, ConstantMessages.AttorneyDoesNotExist, result);
+                    new(StatusCodes.Status400BadRequest, ConstantMessages.ClientDoesNotExist, result);
                 return BadRequest(response);
             }
             else

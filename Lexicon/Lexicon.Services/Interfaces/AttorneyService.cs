@@ -83,7 +83,8 @@ namespace Lexicon.Services.Interfaces
                 _context.SaveChanges();
                 return newAttorney.Id;
             }
-            return -1;
+            else
+                return 0;
         }
         public int UpdateAttorney(int id, AttorneyDto updatedAttorney)
         {

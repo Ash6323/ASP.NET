@@ -18,6 +18,9 @@ builder.Services.AddDbContext<LexiconDbContext>(options =>
 
 builder.Services.AddScoped<IJurisdiction, JurisdictionService>();
 builder.Services.AddScoped<IAttorney, AttorneyService>();
+builder.Services.AddScoped<IMatter, MatterService>();
+builder.Services.AddScoped<IClient, ClientService>();
+builder.Services.AddScoped<IInvoice, InvoiceService>();
 
 
 var app = builder.Build();
