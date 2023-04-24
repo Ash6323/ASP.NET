@@ -86,25 +86,31 @@ namespace Lexicon.Services.Interfaces
         }
         public int AddMatter(MatterDto matter)
         {
-                Attorney attorney = _context.Attorneys.FirstOrDefault(a => a.Id == matter.BillingAttorneyId);
+            Attorney billingAttorneyCheck = _context.Attorneys.FirstOrDefault(a => a.Id == matter.BillingAttorneyId);
+            Attorney responsibleAttorneyCheck = _context.Attorneys.FirstOrDefault(a => a.Id == matter.ResponsibleAttorneyId);
 
-                if (attorney!.JurisdictionId != matter.JurisdictionId)
-                {
-                    return (-1);
-                }
+            if (billingAttorneyCheck!.JurisdictionId != matter.JurisdictionId)
+            {
+                return (-1);
+            }
+            if (responsibleAttorneyCheck!.JurisdictionId != matter.JurisdictionId)
+            {
+                return (0);
+            }
 
-                Matter newMatter = new Matter();
-                {
-                    newMatter.Title = matter.Title;
-                    newMatter.IsActive = matter.IsActive;
-                    newMatter.JurisdictionId = matter.JurisdictionId;
-                    newMatter.ClientId = matter.ClientId;
-                    newMatter.BillingAttorneyId = matter.BillingAttorneyId;
-                    newMatter.ResponsibleAttorneyId = matter.ResponsibleAttorneyId;
-                }
-                _context.Matters.Add(newMatter);
-                _context.SaveChanges();
-                return newMatter.Id;
+
+            Matter newMatter = new Matter();
+            {
+                newMatter.Title = matter.Title;
+                newMatter.IsActive = matter.IsActive;
+                newMatter.JurisdictionId = matter.JurisdictionId;
+                newMatter.ClientId = matter.ClientId;
+                newMatter.BillingAttorneyId = matter.BillingAttorneyId;
+                newMatter.ResponsibleAttorneyId = matter.ResponsibleAttorneyId;
+            }
+            _context.Matters.Add(newMatter);
+            _context.SaveChanges();
+            return newMatter.Id;
         }
         public int UpdateMatter(int id, MatterDto updatedMatter)
         {

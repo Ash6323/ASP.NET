@@ -88,8 +88,8 @@ namespace Lexicon.WebAPI.Controllers
             if (result.Equals(0))
             {
                 Response response = new
-                    (StatusCodes.Status400BadRequest, ConstantMessages.MatterAlreadyExists, 
-                                                      ConstantMessages.MatterAlreadyExists);
+                    (StatusCodes.Status400BadRequest, ConstantMessages.NoMatchingJurisdiction,
+                                                      ConstantMessages.NoMatchingJurisdiction);
                 return BadRequest(response);
             }
             else if(result.Equals(-1))
