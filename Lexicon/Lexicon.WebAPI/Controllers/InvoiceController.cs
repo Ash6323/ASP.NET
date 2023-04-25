@@ -64,7 +64,7 @@ namespace Lexicon.WebAPI.Controllers
         [HttpGet("GetByMatter/{id}")]
         public IActionResult GetByMatter(int id)
         {
-            List<InvoiceDto> result = _invoiceService.GetInvoicesByMatter(id);
+            List<InvoiceForMatterDTO> result = _invoiceService.GetInvoicesForMatter(id);
             if (result == null)
             {
                 Response noInvoicesByMatterResponse = new

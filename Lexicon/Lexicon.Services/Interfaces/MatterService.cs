@@ -1,6 +1,8 @@
 ﻿using Lexicon.Data.Context;
 using Lexicon.Data.DTO;
+using Lexicon.Data.Mapper;
 using Lexicon.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Lexicon.Services.Interfaces
 {
@@ -9,7 +11,7 @@ namespace Lexicon.Services.Interfaces
         List<MatterDto> GetMatters();
         MatterDto GetMatter(int id);
         List<IGrouping<int, MattersByClientsDTO>> GetMattersByClients();
-        List<MatterDto> GetMattersByClient(int clientId);
+        List<MatterForClientDTO> GetMattersForClient(int clientId);
         int AddMatter(MatterDto matter);
         int UpdateMatter(int id, MatterDto updatedmatter);
         int DeleteMatter(int id);
@@ -40,59 +42,56 @@ namespace Lexicon.Services.Interfaces
         }
         public MatterDto GetMatter(int id)
         {
-            MatterDto matter = (from m in _context.Matters where m.Id == id
-                                            select new MatterDto()
-                                            {
-                                                Id = m.Id,
-                                                Title = m.Title,
-                                                Description = m.Description,
-                                                IsActive = m.IsActive,
-                                                JurisdictionId = m.JurisdictionId,
-                                                ClientId = m.ClientId,
-                                                BillingAttorneyId = m.BillingAttorneyId,
-                                                ResponsibleAttorneyId = m.ResponsibleAttorneyId
-                                            }).FirstOrDefault();
+            MatterDto matter = (from m in _context.Matters
+                                where m.Id == id
+                                select new MatterDto()
+                                {
+                                    Id = m.Id,
+                                    Title = m.Title,
+                                    Description = m.Description,
+                                    IsActive = m.IsActive,
+                                    JurisdictionId = m.JurisdictionId,
+                                    ClientId = m.ClientId,
+                                    BillingAttorneyId = m.BillingAttorneyId,
+                                    ResponsibleAttorneyId = m.ResponsibleAttorneyId
+                                }).FirstOrDefault();
             return matter;
         }
         public List<IGrouping<int, MattersByClientsDTO>> GetMattersByClients()
         {
-            List<IGrouping<int, MattersByClientsDTO>> matters = (from m in _context.Matters
-                                       select new MattersByClientsDTO()
-                                       {
-                                           ClientId = m.ClientId,
-                                           Matters = new List<MatterDto>()
-                                           {
-                                               new MatterDto()
-                                               {
-                                                   Id = m.Id,
-                                                   Title = m.Title,
-                                                   Description = m.Description,
-                                                   IsActive = m.IsActive,
-                                                   JurisdictionId = m.JurisdictionId,
-                                                   ClientId = m.ClientId,
-                                                   BillingAttorneyId = m.BillingAttorneyId,
-                                                   ResponsibleAttorneyId = m.ResponsibleAttorneyId
-                                               }                                           
-                                           }
-                                       }).GroupBy(m => m.ClientId).ToList();
+            //List<IGrouping<int, MattersByClientsDTO>> matters = (from m in _context.Matters
+            //                           select new MattersByClientsDTO()
+            //                           {
+            //                               ClientId = m.ClientId,
+            //                               Matters = new List<MatterDto>()
+            //                               {
+            //                                   new MatterDto()
+            //                                   {
+            //                                       Id = m.Id,
+            //                                       Title = m.Title,
+            //                                       Description = m.Description,
+            //                                       IsActive = m.IsActive,
+            //                                       JurisdictionId = m.JurisdictionId,
+            //                                       ClientId = m.ClientId,
+            //                                       BillingAttorneyId = m.BillingAttorneyId,
+            //                                       ResponsibleAttorneyId = m.ResponsibleAttorneyId
+            //                                   }
+            //                               }
+            //                           }).GroupBy(m => m.ClientId).ToList();
 
-            return matters;
+            //return matters;
+            return null;
         }
-        public List<MatterDto> GetMattersByClient(int clientId)
+        public List<MatterForClientDTO> GetMattersForClient(int clientId)
         {
-            List<MatterDto> matters = (from m in _context.Matters where m.ClientId == clientId
-                                             select new MatterDto()
-                                             {
-                                                 Id = m.Id,
-                                                 Title = m.Title,
-                                                 Description = m.Description,
-                                                 IsActive = m.IsActive,
-                                                 JurisdictionId = m.JurisdictionId,
-                                                 ClientId = m.ClientId,
-                                                 BillingAttorneyId = m.BillingAttorneyId,
-                                                 ResponsibleAttorneyId = m.ResponsibleAttorneyId
-                                             }).ToList();
-            return matters;
+            IQueryable<Matter> mattersByClient = _context.Matters
+            .Include(m => m.BillingAttorney)
+            .Include(m => m.ResponsibleAttorney)
+            .Include(m => m.Jurisdiction)
+            .Include(m => m.Client)
+            .Where(c => c.ClientId.Equals(clientId));
+
+            return mattersByClient.Select(c => new MattersForClientMapper().Map(c)).ToList();
         }
         public int AddMatter(MatterDto matter)
         {

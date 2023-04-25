@@ -1,12 +1,8 @@
 ﻿
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
-
 namespace Lexicon.Data.DTO
 {
     public class MatterDto
     {
-        [JsonIgnore]
         public int Id { get; set; }
         public string Title { get; set; } = null!;
         public string Description { get; set; } = null!;

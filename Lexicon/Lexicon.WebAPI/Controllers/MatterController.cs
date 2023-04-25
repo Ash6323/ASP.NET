@@ -65,7 +65,7 @@ namespace Lexicon.WebAPI.Controllers
         [HttpGet("GetByClient/{id}")]
         public IActionResult GetByClient(int id)
         {
-            List<MatterDto> result = _matterService.GetMattersByClient(id);
+            List<MatterForClientDTO> result = _matterService.GetMattersForClient(id);
             if (result == null)
             {
                 Response noMattersByClientResponse = new

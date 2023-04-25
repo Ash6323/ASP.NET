@@ -1,6 +1,8 @@
 ﻿using Lexicon.Data.Context;
 using Lexicon.Data.DTO;
+using Lexicon.Data.Mapper;
 using Lexicon.Data.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Lexicon.Services.Interfaces
 {
@@ -9,7 +11,7 @@ namespace Lexicon.Services.Interfaces
         List<InvoiceDto> GetInvoices();
         InvoiceDto GetInvoice(int id);
         IEnumerable<IGrouping<int, InvoiceDto>> GetInvoicesByMatters();
-        List<InvoiceDto> GetInvoicesByMatter(int matterId);
+        List<InvoiceForMatterDTO> GetInvoicesForMatter(int matterId);
         double GetBillingByAttorney(int attorneyId);
         int AddInvoice(InvoiceDto invoice);
         //int UpdateInvoice(int id, InvoiceDto updatedInvoice);
@@ -66,24 +68,15 @@ namespace Lexicon.Services.Interfaces
 
             return invoices;
         }
-        public List<InvoiceDto> GetInvoicesByMatter(int matterId)
+        public List<InvoiceForMatterDTO> GetInvoicesForMatter(int matterId)
         {
-            List<InvoiceDto> invoices = (from i in _context.Invoices where i.MatterId == matterId
-                                         select new InvoiceDto()
-                                             {
-                                             Id = i.Id,
-                                             Date = i.Date,
-                                             HoursWorked = i.HoursWorked,
-                                             TotalAmount = i.TotalAmount,
-                                             MatterId = i.MatterId,
-                                             AttorneyId = i.AttorneyId
-                                         }).ToList();
-            return invoices;
-        }
-        //public float GetBillingByAttorney()
-        //{
+            IQueryable<Invoice> invoicesByMatter = _context.Invoices
+            .Include(m => m.Matter)
+            .Include(m => m.Attorney)
+            .Where(c => c.MatterId.Equals(matterId));
 
-        //}
+            return invoicesByMatter.Select(c => new InvoicesForMatterMapper().Map(c)).ToList();
+        }      
         public double GetBillingByAttorney(int attorneyId)
         {
             DateTime date= DateTime.Now;
