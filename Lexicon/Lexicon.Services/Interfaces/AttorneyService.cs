@@ -8,6 +8,7 @@ namespace Lexicon.Services.Interfaces
     {
         List<AttorneyDto> GetAttorneys();
         AttorneyDto GetAttorney(int id);
+        List<AttorneyDto> GetAttorniesByJurisdiction(int jurisdictionId);
         int AddAttorney(AttorneyDto attorney);
         int UpdateAttorney(int id, AttorneyDto updatedAttorney);
         int DeleteAttorney(int id);
@@ -50,6 +51,22 @@ namespace Lexicon.Services.Interfaces
                                         JurisdictionId = a.JurisdictionId
                                     }).FirstOrDefault();
                 return attorney;
+        }
+        public List<AttorneyDto> GetAttorniesByJurisdiction(int jurisdictionId)
+        {
+            List<AttorneyDto> attorneys = (from a in _context.Attorneys
+                                       where a.JurisdictionId == jurisdictionId
+                                       select new AttorneyDto()
+                                       {
+                                           Id = a.Id,
+                                           Name = a.Name,
+                                           Age = a.Age,
+                                           Email = a.Email,
+                                           Phone = a.Phone,
+                                           Rate = a.Rate,
+                                           JurisdictionId = a.JurisdictionId
+                                       }).ToList();
+            return attorneys;
         }
         public int AddAttorney(AttorneyDto attorney)
         {

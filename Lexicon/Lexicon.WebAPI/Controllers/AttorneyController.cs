@@ -44,7 +44,23 @@ namespace Lexicon.WebAPI.Controllers
                 (StatusCodes.Status404NotFound, ConstantMessages.AttorneyDoesNotExist, null);
             return NotFound(attorneyNotExistsresponse);
         }
-
+        [HttpGet("GetByJurisdiction/{id}")]
+        public IActionResult GetByClient(int id)
+        {
+            List<AttorneyDto> result = _attorneyService.GetAttorniesByJurisdiction(id);
+            if (result == null)
+            {
+                Response notFoundResponse = new
+                (StatusCodes.Status404NotFound, ConstantMessages.AttorneysByJurisdictionNotFound, null);
+                return NotFound(notFoundResponse);
+            }
+            else
+            {
+                Response responseExists = new
+                (StatusCodes.Status200OK, ConstantMessages.DataRetrievedSuccessfully, result);
+                return Ok(responseExists);
+            }
+        }
         // POST api/<AttorneyController>
         [HttpPost]
         public IActionResult Post(AttorneyDto attorney)

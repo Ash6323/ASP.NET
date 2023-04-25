@@ -48,7 +48,7 @@ namespace Lexicon.WebAPI.Controllers
         [HttpGet("GetByClients")]
         public IActionResult GetByClients()
         {
-            IEnumerable<IGrouping<int, MatterDto>> result = _matterService.GetMattersByClients();
+            List<IGrouping<int, MattersByClientsDTO>> result = _matterService.GetMattersByClients();
             if (result == null)
             {
                 Response noMattersByClientsResponse = new

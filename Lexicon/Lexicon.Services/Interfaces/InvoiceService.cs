@@ -109,7 +109,6 @@ namespace Lexicon.Services.Interfaces
                                             i.Date.Date >= lastWeekStartDate.Date &&
                                             i.Date.Date <= lastWeekEndDate.Date)
                                     .Sum(im => im.TotalAmount));
-
             return billing;
         }
         public int AddInvoice(InvoiceDto invoice)

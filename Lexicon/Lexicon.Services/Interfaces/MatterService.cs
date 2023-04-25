@@ -8,7 +8,7 @@ namespace Lexicon.Services.Interfaces
     {
         List<MatterDto> GetMatters();
         MatterDto GetMatter(int id);
-        IEnumerable<IGrouping<int, MatterDto>> GetMattersByClients();
+        List<IGrouping<int, MattersByClientsDTO>> GetMattersByClients();
         List<MatterDto> GetMattersByClient(int clientId);
         int AddMatter(MatterDto matter);
         int UpdateMatter(int id, MatterDto updatedmatter);
@@ -28,6 +28,7 @@ namespace Lexicon.Services.Interfaces
                                         {
                                             Id = m.Id,
                                             Title = m.Title,
+                                            Description = m.Description,
                                             IsActive = m.IsActive,
                                             JurisdictionId = m.JurisdictionId,
                                             ClientId = m.ClientId,
@@ -44,6 +45,7 @@ namespace Lexicon.Services.Interfaces
                                             {
                                                 Id = m.Id,
                                                 Title = m.Title,
+                                                Description = m.Description,
                                                 IsActive = m.IsActive,
                                                 JurisdictionId = m.JurisdictionId,
                                                 ClientId = m.ClientId,
@@ -52,19 +54,26 @@ namespace Lexicon.Services.Interfaces
                                             }).FirstOrDefault();
             return matter;
         }
-        public IEnumerable<IGrouping<int, MatterDto>> GetMattersByClients()
+        public List<IGrouping<int, MattersByClientsDTO>> GetMattersByClients()
         {
-            IEnumerable<IGrouping<int, MatterDto>> matters = (from m in _context.Matters
-                                       //group m by m.ClientId into g
-                                       select new MatterDto()
+            List<IGrouping<int, MattersByClientsDTO>> matters = (from m in _context.Matters
+                                       select new MattersByClientsDTO()
                                        {
-                                           Id = m.Id,
-                                           Title = m.Title,
-                                           IsActive = m.IsActive,
-                                           JurisdictionId = m.JurisdictionId,
                                            ClientId = m.ClientId,
-                                           BillingAttorneyId = m.BillingAttorneyId,
-                                           ResponsibleAttorneyId = m.ResponsibleAttorneyId
+                                           Matters = new List<MatterDto>()
+                                           {
+                                               new MatterDto()
+                                               {
+                                                   Id = m.Id,
+                                                   Title = m.Title,
+                                                   Description = m.Description,
+                                                   IsActive = m.IsActive,
+                                                   JurisdictionId = m.JurisdictionId,
+                                                   ClientId = m.ClientId,
+                                                   BillingAttorneyId = m.BillingAttorneyId,
+                                                   ResponsibleAttorneyId = m.ResponsibleAttorneyId
+                                               }                                           
+                                           }
                                        }).GroupBy(m => m.ClientId).ToList();
 
             return matters;
@@ -76,6 +85,7 @@ namespace Lexicon.Services.Interfaces
                                              {
                                                  Id = m.Id,
                                                  Title = m.Title,
+                                                 Description = m.Description,
                                                  IsActive = m.IsActive,
                                                  JurisdictionId = m.JurisdictionId,
                                                  ClientId = m.ClientId,
@@ -93,15 +103,15 @@ namespace Lexicon.Services.Interfaces
             {
                 return (-1);
             }
-            if (responsibleAttorneyCheck!.JurisdictionId != matter.JurisdictionId)
-            {
-                return (0);
-            }
-
+            //if (responsibleAttorneyCheck!.JurisdictionId != matter.JurisdictionId)
+            //{
+            //    return (0);
+            //}
 
             Matter newMatter = new Matter();
             {
                 newMatter.Title = matter.Title;
+                newMatter.Description = matter.Description;
                 newMatter.IsActive = matter.IsActive;
                 newMatter.JurisdictionId = matter.JurisdictionId;
                 newMatter.ClientId = matter.ClientId;
@@ -120,6 +130,7 @@ namespace Lexicon.Services.Interfaces
                                 {
                                     Id = m.Id,
                                     Title = m.Title,
+                                    Description = m.Description,
                                     IsActive = m.IsActive,
                                     JurisdictionId = m.JurisdictionId,
                                     ClientId = m.ClientId,
@@ -130,6 +141,7 @@ namespace Lexicon.Services.Interfaces
             {
                 matter.Title = updatedMatter.Title;
                 matter.IsActive = updatedMatter.IsActive;
+                matter.Description = updatedMatter.Description;
                 matter.JurisdictionId = updatedMatter.JurisdictionId;
                 matter.ClientId = updatedMatter.ClientId;
                 matter.BillingAttorneyId = updatedMatter.BillingAttorneyId;
