@@ -8,8 +8,9 @@ namespace Lexicon.Data.DTO
         public string Description { get; set; } = null!;
         public int IsActive { get; set; }
         public string JurisdictionArea { get; set; } = null!;
+        public int ClientId { get; set; }
         public string ClientName { get; set; } = null!;
-        public int BillingAttorneyName { get; set; }
-        public int ResponsibleAttorneyName { get; set; }
+        public string BillingAttorneyName { get; set; }
+        public string ResponsibleAttorneyName { get; set; }
     }
 }

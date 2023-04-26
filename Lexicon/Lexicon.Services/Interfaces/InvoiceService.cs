@@ -3,7 +3,7 @@ using Lexicon.Data.DTO;
 using Lexicon.Data.Mapper;
 using Lexicon.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.Metrics;
+using System.Linq;
 
 namespace Lexicon.Services.Interfaces
 {
@@ -13,6 +13,7 @@ namespace Lexicon.Services.Interfaces
         InvoiceDto GetInvoice(int id);
         IEnumerable<IGrouping<int, InvoiceDto>> GetInvoicesByMatters();
         List<InvoiceForMatterDTO> GetInvoicesForMatter(int matterId);
+        List<BillingByAttorneysDTO> GetBillingByAttorneys();
         double GetBillingForAttorney(int attorneyId);
         int AddInvoice(InvoiceDto invoice);
         int UpdateInvoice(int id, InvoiceDto updatedInvoice);
@@ -77,7 +78,29 @@ namespace Lexicon.Services.Interfaces
             .Where(c => c.MatterId.Equals(matterId));
 
             return invoicesByMatter.Select(c => new InvoicesForMatterMapper().Map(c)).ToList();
-        }      
+        }
+        public List<BillingByAttorneysDTO> GetBillingByAttorneys()
+        {
+            List<int> idList = _context.Attorneys.Where(a => a.Id != 0).Select(a => a.Id).ToList();
+            int attorneyCount = idList.Count();
+            List<double> billings = new List<double>();
+
+            for (int i = 0; i < attorneyCount; i++)
+                billings.Add(GetBillingForAttorney(idList[i]));
+
+            List<BillingByAttorneysDTO> billingByAttorneys = (from a in _context.Attorneys
+                                            select new BillingByAttorneysDTO()
+                                            {
+                                                Id = a.Id,
+                                                AttorneyName = a.Name,
+                                                Billing = 0
+                                            }).ToList();
+            
+            for(int i =0; i< attorneyCount; i++)
+                billingByAttorneys[i].Billing = billings[i];
+
+            return billingByAttorneys;
+        }
         public double GetBillingForAttorney(int attorneyId)
         {
             DateTime date= DateTime.Now;

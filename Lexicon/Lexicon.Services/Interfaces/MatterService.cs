@@ -59,6 +59,14 @@ namespace Lexicon.Services.Interfaces
         }
         public List<IGrouping<int, MattersByClientsDTO>> GetMattersByClients()
         {
+            List<IGrouping<int, MattersByClientsDTO>> matterList = _context.Matters
+                .Include(m => m.BillingAttorney)
+                .Include(m => m.ResponsibleAttorney)
+                .Include(m => m.Jurisdiction)
+                .Include(m => m.Client)
+                .Select(c => new MattersByClientsMapper().Map(c)).AsEnumerable()
+                .GroupBy(s => s.ClientId).ToList();
+            return matterList;
             //List<IGrouping<int, MattersByClientsDTO>> matters = (from m in _context.Matters
             //                           select new MattersByClientsDTO()
             //                           {
@@ -80,7 +88,6 @@ namespace Lexicon.Services.Interfaces
             //                           }).GroupBy(m => m.ClientId).ToList();
 
             //return matters;
-            return null;
         }
         public List<MatterForClientDTO> GetMattersForClient(int clientId)
         {

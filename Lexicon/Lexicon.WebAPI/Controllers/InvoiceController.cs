@@ -78,13 +78,23 @@ namespace Lexicon.WebAPI.Controllers
                 return Ok(invoicesByMatterExistsResponse);
             }
         }
+
+        [HttpGet("BillingByAttorneys")]
+        public IActionResult BillingByAttorneys()
+        {
+            List<BillingByAttorneysDTO> result = _invoiceService.GetBillingByAttorneys();
+
+            Response response = new(StatusCodes.Status200OK, ConstantMessages.FetchedBilling, result);
+            return Ok(response);
+        }
+
         [HttpGet("BillingForAttorney/{id}")]
         public IActionResult BillingForAttorney(int id)
         {
             double result = _invoiceService.GetBillingForAttorney(id);
 
             Response response = new
-            (StatusCodes.Status200OK, ConstantMessages.BillingFetched, result);
+            (StatusCodes.Status200OK, ConstantMessages.FetchedBilling, result);
             return Ok(response);
         }
 
