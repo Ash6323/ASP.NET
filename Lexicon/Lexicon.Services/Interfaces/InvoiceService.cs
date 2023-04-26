@@ -3,7 +3,6 @@ using Lexicon.Data.DTO;
 using Lexicon.Data.Mapper;
 using Lexicon.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 
 namespace Lexicon.Services.Interfaces
 {
@@ -11,7 +10,7 @@ namespace Lexicon.Services.Interfaces
     {
         List<InvoiceDto> GetInvoices();
         InvoiceDto GetInvoice(int id);
-        IEnumerable<IGrouping<int, InvoiceDto>> GetInvoicesByMatters();
+        List<IGrouping<int, InvoicesByMattersDTO>> GetInvoicesByMatters();
         List<InvoiceForMatterDTO> GetInvoicesForMatter(int matterId);
         List<BillingByAttorneysDTO> GetBillingByAttorneys();
         double GetBillingForAttorney(int attorneyId);
@@ -55,20 +54,15 @@ namespace Lexicon.Services.Interfaces
                                  }).FirstOrDefault();
             return invoice;
         }
-        public IEnumerable<IGrouping<int, InvoiceDto>> GetInvoicesByMatters()
+        public List<IGrouping<int, InvoicesByMattersDTO>> GetInvoicesByMatters()
         {
-            IEnumerable<IGrouping<int, InvoiceDto>> invoices = (from i in _context.Invoices
-                                       select new InvoiceDto()
-                                       {
-                                           Id = i.Id,
-                                           Date = i.Date,
-                                           HoursWorked = i.HoursWorked,
-                                           TotalAmount = i.TotalAmount,
-                                           MatterId = i.MatterId,
-                                           AttorneyId = i.AttorneyId
-                                       }).GroupBy(m => m.MatterId).ToList();
+            List<IGrouping<int, InvoicesByMattersDTO>> invoicesList = _context.Invoices
+                .Include(m => m.Matter)
+                .Include(m => m.Attorney)
+                .Select(c => new InvoicesByMattersMapper().Map(c)).AsEnumerable()
+                .GroupBy(s => s.Id).ToList();
 
-            return invoices;
+            return invoicesList;
         }
         public List<InvoiceForMatterDTO> GetInvoicesForMatter(int matterId)
         {

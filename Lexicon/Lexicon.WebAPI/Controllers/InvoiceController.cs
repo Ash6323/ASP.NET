@@ -47,7 +47,7 @@ namespace Lexicon.WebAPI.Controllers
         [HttpGet("GetByMatters")]
         public IActionResult GetByMatters()
         {
-            IEnumerable<IGrouping<int, InvoiceDto>> result = _invoiceService.GetInvoicesByMatters();
+            List<IGrouping<int, InvoicesByMattersDTO>> result = _invoiceService.GetInvoicesByMatters();
             if (result == null)
             {
                 Response noInvoicesByMattersResponse = new

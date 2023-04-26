@@ -67,27 +67,6 @@ namespace Lexicon.Services.Interfaces
                 .Select(c => new MattersByClientsMapper().Map(c)).AsEnumerable()
                 .GroupBy(s => s.ClientId).ToList();
             return matterList;
-            //List<IGrouping<int, MattersByClientsDTO>> matters = (from m in _context.Matters
-            //                           select new MattersByClientsDTO()
-            //                           {
-            //                               ClientId = m.ClientId,
-            //                               Matters = new List<MatterDto>()
-            //                               {
-            //                                   new MatterDto()
-            //                                   {
-            //                                       Id = m.Id,
-            //                                       Title = m.Title,
-            //                                       Description = m.Description,
-            //                                       IsActive = m.IsActive,
-            //                                       JurisdictionId = m.JurisdictionId,
-            //                                       ClientId = m.ClientId,
-            //                                       BillingAttorneyId = m.BillingAttorneyId,
-            //                                       ResponsibleAttorneyId = m.ResponsibleAttorneyId
-            //                                   }
-            //                               }
-            //                           }).GroupBy(m => m.ClientId).ToList();
-
-            //return matters;
         }
         public List<MatterForClientDTO> GetMattersForClient(int clientId)
         {
