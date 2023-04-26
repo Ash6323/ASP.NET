@@ -63,17 +63,8 @@ namespace Lexicon.Services.Interfaces
         }
         public int UpdateClient(int id, ClientDto updatedClient)
         {
-            ClientDto client = (from c in _context.Clients
-                                where c.Id == id
-                                select new ClientDto()
-                                {
-                                    Id = c.Id,
-                                    Name = c.Name,
-                                    Age = c.Age,
-                                    Gender = c.Gender,
-                                    Email = c.Email,
-                                    Phone = c.Phone
-                                }).FirstOrDefault();
+            Client client = _context.Clients.FirstOrDefault(c => c.Id == id);
+
             if (client != null)
             {
                 client.Name = updatedClient.Name;

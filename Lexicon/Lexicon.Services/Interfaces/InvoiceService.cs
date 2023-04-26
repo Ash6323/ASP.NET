@@ -3,6 +3,7 @@ using Lexicon.Data.DTO;
 using Lexicon.Data.Mapper;
 using Lexicon.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Metrics;
 
 namespace Lexicon.Services.Interfaces
 {
@@ -12,9 +13,9 @@ namespace Lexicon.Services.Interfaces
         InvoiceDto GetInvoice(int id);
         IEnumerable<IGrouping<int, InvoiceDto>> GetInvoicesByMatters();
         List<InvoiceForMatterDTO> GetInvoicesForMatter(int matterId);
-        double GetBillingByAttorney(int attorneyId);
+        double GetBillingForAttorney(int attorneyId);
         int AddInvoice(InvoiceDto invoice);
-        //int UpdateInvoice(int id, InvoiceDto updatedInvoice);
+        int UpdateInvoice(int id, InvoiceDto updatedInvoice);
         //int DeleteInvoice(int id);
     }
     public class InvoiceService : IInvoice
@@ -77,7 +78,7 @@ namespace Lexicon.Services.Interfaces
 
             return invoicesByMatter.Select(c => new InvoicesForMatterMapper().Map(c)).ToList();
         }      
-        public double GetBillingByAttorney(int attorneyId)
+        public double GetBillingForAttorney(int attorneyId)
         {
             DateTime date= DateTime.Now;
             DayOfWeek sunday = DayOfWeek.Sunday;
@@ -106,6 +107,14 @@ namespace Lexicon.Services.Interfaces
         }
         public int AddInvoice(InvoiceDto invoice)
         {
+            Matter currentMatter = _context.Matters.FirstOrDefault(m => m.Id == invoice.MatterId);
+            Attorney attorneyCheck = _context.Attorneys.FirstOrDefault(a => 
+                                (a.Id == currentMatter.BillingAttorneyId) || (a.Id == currentMatter.ResponsibleAttorneyId));
+            if (attorneyCheck == null)
+            {
+                return (0);
+            }
+
             int attorneyRate = _context.Attorneys.Where(a => a.Id == invoice.AttorneyId).Select(a => a.Rate).First();
 
             Invoice newInvoice = new Invoice();
@@ -120,30 +129,21 @@ namespace Lexicon.Services.Interfaces
             _context.SaveChanges();
             return newInvoice.Id;
         }
-        public int UpdateMatter(int id, MatterDto updatedMatter)
+        public int UpdateInvoice(int id, InvoiceDto updatedInvoice)
         {
-            MatterDto matter = (from m in _context.Matters
-                                where m.Id == id
-                                select new MatterDto()
-                                {
-                                    Id = m.Id,
-                                    Title = m.Title,
-                                    IsActive = m.IsActive,
-                                    JurisdictionId = m.JurisdictionId,
-                                    ClientId = m.ClientId,
-                                    BillingAttorneyId = m.BillingAttorneyId,
-                                    ResponsibleAttorneyId = m.ResponsibleAttorneyId
-                                }).FirstOrDefault();
-            if (matter != null)
+            Invoice invoice = _context.Invoices.FirstOrDefault(i => i.Id == id);
+
+            int attorneyRate = _context.Attorneys.Where(a => a.Id == updatedInvoice.AttorneyId).Select(a => a.Rate).First();
+
+            if (invoice != null)
             {
-                matter.Title = updatedMatter.Title;
-                matter.IsActive = updatedMatter.IsActive;
-                matter.JurisdictionId = updatedMatter.JurisdictionId;
-                matter.ClientId = updatedMatter.ClientId;
-                matter.BillingAttorneyId = updatedMatter.BillingAttorneyId;
-                matter.ResponsibleAttorneyId = updatedMatter.ResponsibleAttorneyId;
+                invoice.Date = updatedInvoice.Date;
+                invoice.HoursWorked = updatedInvoice.HoursWorked;
+                invoice.TotalAmount = updatedInvoice.HoursWorked * attorneyRate;
+                invoice.MatterId = updatedInvoice.MatterId;
+                invoice.AttorneyId = updatedInvoice.AttorneyId;
                 _context.SaveChanges();
-                return matter.Id;
+                return invoice.Id;
             }
             else
                 return 0;

@@ -18,7 +18,7 @@
         public static string InvoiceDoesNotExist = "Invoice with this ID does not Exist";
         public static string InvoicesByMattersNotFound = "Matters don't have any previous Invoices";
         public static string InvoicesByMatterNotFound = "This Matter doesn't have any previous Invoices";
-        public static string InvoiceAlreadyExists = "Invoice with the same ID already Exists";
+        public static string InvalidAttorney = "Invalid Attorney selected for this Matter";
         public static string BillingFetched = "Last Week's Billing Amount Retrieval Successful";
         public static string AttorneysByJurisdictionNotFound = "This Jurisdiction doesn't have any Attorneys";
 

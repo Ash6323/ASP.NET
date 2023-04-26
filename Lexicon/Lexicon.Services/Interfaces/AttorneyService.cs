@@ -85,18 +85,8 @@ namespace Lexicon.Services.Interfaces
         }
         public int UpdateAttorney(int id, AttorneyDto updatedAttorney)
         {
-            AttorneyDto attorney = (from a in _context.Attorneys
-                                  where a.Id == id
-                                  select new AttorneyDto()
-                                  {
-                                      Id = a.Id,
-                                      Name = a.Name,
-                                      Age = a.Age,
-                                      Email = a.Email,
-                                      Phone = a.Phone,
-                                      Rate = a.Rate,
-                                      JurisdictionId = a.JurisdictionId
-                                  }).FirstOrDefault();
+            Attorney attorney = _context.Attorneys.FirstOrDefault(a => a.Id == id);
+
             if (attorney != null)
             {
                 attorney.Name = updatedAttorney.Name;

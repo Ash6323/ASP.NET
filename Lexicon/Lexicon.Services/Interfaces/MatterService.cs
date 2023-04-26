@@ -123,19 +123,8 @@ namespace Lexicon.Services.Interfaces
         }
         public int UpdateMatter(int id, MatterDto updatedMatter)
         {
-            MatterDto matter = (from m in _context.Matters
-                                where m.Id == id
-                                select new MatterDto()
-                                {
-                                    Id = m.Id,
-                                    Title = m.Title,
-                                    Description = m.Description,
-                                    IsActive = m.IsActive,
-                                    JurisdictionId = m.JurisdictionId,
-                                    ClientId = m.ClientId,
-                                    BillingAttorneyId = m.BillingAttorneyId,
-                                    ResponsibleAttorneyId = m.ResponsibleAttorneyId
-                                }).FirstOrDefault();
+            Matter matter = _context.Matters.FirstOrDefault(m => m.Id == id);
+
             if (matter != null)
             {
                 matter.Title = updatedMatter.Title;

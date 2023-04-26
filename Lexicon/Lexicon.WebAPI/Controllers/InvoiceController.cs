@@ -78,10 +78,10 @@ namespace Lexicon.WebAPI.Controllers
                 return Ok(invoicesByMatterExistsResponse);
             }
         }
-        [HttpGet("GetBillingByAttorney/{id}")]
-        public IActionResult GetBillingByAttorney(int id)
+        [HttpGet("BillingForAttorney/{id}")]
+        public IActionResult BillingForAttorney(int id)
         {
-            double result = _invoiceService.GetBillingByAttorney(id);
+            double result = _invoiceService.GetBillingForAttorney(id);
 
             Response response = new
             (StatusCodes.Status200OK, ConstantMessages.BillingFetched, result);
@@ -96,8 +96,7 @@ namespace Lexicon.WebAPI.Controllers
             if (result.Equals(0))
             {
                 Response response = new
-                    (StatusCodes.Status400BadRequest, ConstantMessages.InvoiceAlreadyExists,
-                                                        ConstantMessages.InvoiceAlreadyExists);
+                    (StatusCodes.Status400BadRequest, ConstantMessages.InvalidAttorney, ConstantMessages.InvalidAttorney);
                 return BadRequest(response);
             }
             else
@@ -109,23 +108,22 @@ namespace Lexicon.WebAPI.Controllers
         }
 
         // PUT api/<InvoiceController>/5
-        //[HttpPut("{id}")]
-        //public IActionResult Put(int id, [FromBody] MatterDto updatedMatter)
-        //{
-        //    int result = _invoiceService.UpdateMatter(id, updatedMatter);
-        //    if (result.Equals(0))
-        //    {
-        //        Response response = new
-        //            (StatusCodes.Status404NotFound, ConstantMessages.MatterDoesNotExist,
-        //                                            ConstantMessages.MatterDoesNotExist);
-        //        return NotFound(response);
-        //    }
-        //    else
-        //    {
-        //        Response response = new(StatusCodes.Status200OK, ConstantMessages.DataUpdatedSuccessfully, result);
-        //        return Ok(response);
-        //    }
-        //}
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] InvoiceDto updatedInvoice)
+        {
+            int result = _invoiceService.UpdateInvoice(id, updatedInvoice);
+            if (result.Equals(0))
+            {
+                Response response = new
+                    (StatusCodes.Status404NotFound, ConstantMessages.InvoiceDoesNotExist,ConstantMessages.InvoiceDoesNotExist);
+                return NotFound(response);
+            }
+            else
+            {
+                Response response = new(StatusCodes.Status200OK, ConstantMessages.DataUpdatedSuccessfully, result);
+                return Ok(response);
+            }
+        }
 
         // DELETE api/<InvoiceController>/5
         //[HttpDelete("{id}")]
