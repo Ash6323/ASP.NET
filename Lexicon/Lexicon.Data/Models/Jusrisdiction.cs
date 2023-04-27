@@ -1,12 +1,15 @@
-﻿
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Lexicon.Data.Models
 {
-    public class Jusrisdiction
+    public class Jurisdiction
     {
-        [Key]
+        [Key][JsonIgnore]
         public int Id { get; set; }
-        public string Area { get; set; }
+        [Required]
+        public string Area { get; set; } = null!;
+        public ICollection<Attorney> Attorneys { get; set; }
+        public ICollection<Matter> Matters { get; set; }
     }
 }
