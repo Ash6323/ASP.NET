@@ -41,9 +41,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lexicon", "Lexicon", "{C763
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicon.Data", "Lexicon\Lexicon.Data\Lexicon.Data.csproj", "{2BF85E08-9DD5-452C-BFE7-F5C3860D20CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicon.WebAPI", "Lexicon\Lexicon.WebAPI\Lexicon.WebAPI.csproj", "{65EE1B6B-B4B3-4C2D-9577-CB42D9666464}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicon.WebAPI", "Lexicon\Lexicon.WebAPI\Lexicon.WebAPI.csproj", "{65EE1B6B-B4B3-4C2D-9577-CB42D9666464}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicon.Services", "Lexicon\Lexicon.Services\Lexicon.Services.csproj", "{66A92A0D-038E-46D9-9F74-0CDBD5B13BF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicon.Services", "Lexicon\Lexicon.Services\Lexicon.Services.csproj", "{66A92A0D-038E-46D9-9F74-0CDBD5B13BF3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{74711BC1-0BCB-4DBF-96EA-74F82E2FE222}"
 	ProjectSection(SolutionItems) = preProject
