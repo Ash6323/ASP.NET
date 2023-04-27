@@ -41,14 +41,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lexicon", "Lexicon", "{C763
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicon.Data", "Lexicon\Lexicon.Data\Lexicon.Data.csproj", "{2BF85E08-9DD5-452C-BFE7-F5C3860D20CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicon.WebAPI", "Lexicon\Lexicon.WebAPI\Lexicon.WebAPI.csproj", "{65EE1B6B-B4B3-4C2D-9577-CB42D9666464}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicon.WebAPI", "Lexicon\Lexicon.WebAPI\Lexicon.WebAPI.csproj", "{65EE1B6B-B4B3-4C2D-9577-CB42D9666464}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lexicon.Services", "Lexicon\Lexicon.Services\Lexicon.Services.csproj", "{66A92A0D-038E-46D9-9F74-0CDBD5B13BF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lexicon.Services", "Lexicon\Lexicon.Services\Lexicon.Services.csproj", "{66A92A0D-038E-46D9-9F74-0CDBD5B13BF3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{74711BC1-0BCB-4DBF-96EA-74F82E2FE222}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "StudentTeacherIdentity", "StudentTeacherIdentity", "{0B2132CC-A963-46FB-AB27-ED4A39DE2F03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StudentTeacher.Data", "StudentTeacherIdentity\StudentTeacher.Data\StudentTeacher.Data.csproj", "{FD1270B4-F34D-44E3-A0B2-1B8849646DC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -120,6 +124,10 @@ Global
 		{66A92A0D-038E-46D9-9F74-0CDBD5B13BF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66A92A0D-038E-46D9-9F74-0CDBD5B13BF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66A92A0D-038E-46D9-9F74-0CDBD5B13BF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD1270B4-F34D-44E3-A0B2-1B8849646DC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD1270B4-F34D-44E3-A0B2-1B8849646DC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD1270B4-F34D-44E3-A0B2-1B8849646DC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD1270B4-F34D-44E3-A0B2-1B8849646DC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -134,6 +142,7 @@ Global
 		{2BF85E08-9DD5-452C-BFE7-F5C3860D20CC} = {C76385EE-8E5C-46C8-A86A-7A25A7E63EBA}
 		{65EE1B6B-B4B3-4C2D-9577-CB42D9666464} = {C76385EE-8E5C-46C8-A86A-7A25A7E63EBA}
 		{66A92A0D-038E-46D9-9F74-0CDBD5B13BF3} = {C76385EE-8E5C-46C8-A86A-7A25A7E63EBA}
+		{FD1270B4-F34D-44E3-A0B2-1B8849646DC3} = {0B2132CC-A963-46FB-AB27-ED4A39DE2F03}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6B625223-5B2D-488C-9F33-04C6D5D8B9FC}

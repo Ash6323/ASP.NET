@@ -60,7 +60,7 @@ namespace Lexicon.Services.Interfaces
                 .Include(m => m.Matter)
                 .Include(m => m.Attorney)
                 .Select(c => new InvoicesByMattersMapper().Map(c)).AsEnumerable()
-                .GroupBy(s => s.Id).ToList();
+                .GroupBy(s => s.MatterId).ToList();
 
             return invoicesList;
         }
