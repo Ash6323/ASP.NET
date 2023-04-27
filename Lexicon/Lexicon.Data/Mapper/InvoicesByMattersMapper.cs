@@ -13,6 +13,7 @@ namespace Lexicon.Data.Mapper
                 Date = entity.Date,
                 HoursWorked = entity.HoursWorked,
                 TotalAmount = entity.TotalAmount,
+                MatterId = entity.MatterId,
                 MatterTitle = entity.Matter.Title,
                 AttorneyName = entity.Attorney.Name
             };

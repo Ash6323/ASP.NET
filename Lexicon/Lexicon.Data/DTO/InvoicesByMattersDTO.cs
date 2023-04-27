@@ -6,6 +6,7 @@
         public DateTime Date { get; set; }
         public int HoursWorked { get; set; }
         public float? TotalAmount { get; set; }
+        public int MatterId { get; set; }
         public string MatterTitle { get; set; }
         public string AttorneyName { get; set; }
     }
